@@ -1,0 +1,107 @@
+@import "./src/assets/css/_vars";
+@import "./src/assets/css/_mixin";
+
+.header__search {
+  flex-grow: 1;
+  padding: 0 40px;
+
+  @include breakpoint-down(small) {
+    display: none;
+  }
+
+  &-form {
+    position: relative;
+  }
+
+  &-input-group {
+    display: flex;
+    background-color: $white-color;
+    height: 36px;
+    border-radius: 4px;
+  }
+
+  &-input {
+    flex-grow: 1;
+    height: 100%;
+    border: none;
+    padding: 6px 12px;
+    font-size: 0.875rem;
+    border-radius: 4px;
+
+    &:focus {
+      outline: none;
+
+      & ~ .header__search-history {
+        display: block;
+      }
+    }
+  }
+
+  &-button {
+    padding-top: 4px;
+    width: 40px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #193c9d;
+    cursor: pointer;
+
+    i.material-icons {
+      font-size: 1.8rem;
+    }
+  }
+
+  &-history {
+    position: absolute;
+    background-color: $white-color;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,.08);
+    width: 100%;
+    top: calc(100% + 6px);
+    left: 0;
+    z-index: 1;
+    display: none;
+
+    &-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 12px;
+      background-color: rgb(244, 244, 244);
+      color: $title-color;
+
+      &:hover {
+        background-color: rgb(232,232,232);
+      }
+
+      h3 {
+        flex-grow: 1;
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 400;
+        padding-left: 12px;
+        color: $title-color;
+      }
+
+      .header__search-history-action {
+        font-weight: 400;
+        color: $primary-color;
+      }
+    }
+
+    &-list {
+
+      .header__search-history-item {
+        padding: 8px 12px;
+        color: $text-color;
+        font-size: 0.875rem;
+
+        &:hover {
+          background-color: rgb(232, 232, 232);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
