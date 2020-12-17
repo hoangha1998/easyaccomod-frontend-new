@@ -1,0 +1,40 @@
+@import "../../assets/css/_vars";
+
+.breadcrumb-section {
+
+  .breadcrumb {
+    display: flex;
+    padding: 20px 0;
+
+    &-item {
+      margin-right: 10px;
+      font-size: 0.875rem;
+
+      &.active {
+        color: #6c757d;
+      }
+
+      a {
+        color: #000000;
+        font-weight: 400;
+
+        &:hover {
+          color: $primary-color-contrast;
+        }
+      }
+
+      &:first-child {
+        &::before {
+          display: none;
+        }
+      }
+
+      &::before {
+        display: inline-block;
+        padding-right: .5rem;
+        color: #6c757d;
+        content: "/";
+      }
+    }
+  }
+}

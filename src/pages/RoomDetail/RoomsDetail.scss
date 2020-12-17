@@ -1,0 +1,32 @@
+@import "../../assets/css/_vars";
+@import "../../assets/css/_mixin";
+
+.room-detail-page {
+
+  &__wrap {
+    background-color: $white-color;
+    border-radius: 4px;
+    padding: 12px;
+  }
+
+}
+
+#room-slider-main {
+
+  .slide-item {
+    padding-top:60%;
+    background: #ffffff center no-repeat;
+    background-size: contain;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+}
+
+#room-slider-thumbs {
+
+  .slide-item {
+    padding-top:60%;
+    background: #ffffff center no-repeat;
+    background-size: contain;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+}
