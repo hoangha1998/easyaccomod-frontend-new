@@ -4,7 +4,9 @@ import BreadcrumbItem from "../../components/Breadcrumb/BreadcrumbItem";
 import './RoomsDetail.scss';
 import RoomSlider from "./__components/RoomSlider/RoomSlider";
 import {Link} from "react-router-dom";
-
+import RoomOwner from "./__components/RoomOwner/RoomOwner";
+import RoomRelate from "./__components/RoomRelate/RoomRelate";
+import bannerImg from "../../assets/images/banner-sidebar.png"
 
 
 
@@ -139,7 +141,16 @@ function RoomsDetail(props) {
 
             </div>
             <div className="col c-12 m-12 l-4">
-              Thông tin chủ trọ
+              <div className="right-bar">
+                <RoomOwner/>
+
+                <div className="banner-sidebar">
+                  <img  src={bannerImg} alt="banner"/>
+                </div>
+
+
+                <RoomRelate/>
+              </div>
             </div>
           </div>
         </div>
