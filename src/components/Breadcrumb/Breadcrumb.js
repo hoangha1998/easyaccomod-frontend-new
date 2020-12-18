@@ -7,7 +7,7 @@ export const Breadcrumb = ({children}) => (
     <div className="grid wide">
       <nav className="breadcrumb-nav">
         <ul className="breadcrumb">
-          <BreadcrumbItem path="/" text={<><i className="fas fa-home"/> Trang chủ</>}/>
+          <BreadcrumbItem path="/" text={<><i className="fas fa-home"/> <span className="hide-mobile">Trang chủ</span></>}/>
           {children}
         </ul>
       </nav>
