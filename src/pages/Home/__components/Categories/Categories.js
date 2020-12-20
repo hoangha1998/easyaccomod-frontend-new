@@ -47,7 +47,7 @@ function Categories(props) {
               {
                 categories.map((item,index) => (
                   <div className="col c-6 m-6 l-3" key={index}>
-                    <Link className="home-categories-item" to="/">
+                    <Link className="home-categories-item" to="/rooms/category/">
                       <div className="home-categories-item__img" style={item.avatarUrl}></div>
                       <h3 className="home-categories-item__title">{item.title}</h3>
                     </Link>

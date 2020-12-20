@@ -44,7 +44,7 @@ function RoomsDetail(props) {
   return (
     <div className="room-detail-page page-paper">
       <Breadcrumb>
-        <BreadcrumbItem text="Nhà trọ" path={`/rooms`} />
+        <BreadcrumbItem text="Nhà trọ" path={`/rooms/category`} />
         <BreadcrumbItem text="🌈Phòng cao cấp mới xây, giờ tự do gần Chợ An Nhơn" path="" isActive={true}/>
       </Breadcrumb>
 

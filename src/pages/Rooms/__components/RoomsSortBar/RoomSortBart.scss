@@ -1,0 +1,102 @@
+@import "../../../../assets/css/_vars";
+@import "../../../../assets/css/_mixin";
+
+.rooms-sort-bar {
+  display: flex;
+  background-color: rgba(0,0,0,0.04);
+  padding: 12px;
+  align-items: center;
+
+  &__label {
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+
+  &-options {
+    margin-left: 20px;
+    display: flex;
+    flex-wrap: wrap;
+
+
+
+    &__option {
+      margin: 0 20px 0 0;
+      position: relative;
+      padding: 0 16px;
+      line-height: 36px;
+      height: 34px;
+      text-align: center;
+      background-color: $white-color;
+      font-size: 0.875rem;
+      cursor: pointer;
+
+      @include breakpoint-down(medium) {
+        padding: 0 8px;
+        margin: 0 10px 0 0;
+      }
+
+      &--dropdown {
+        width: 180px;
+
+        &:hover {
+          .select-input__list {
+            display: block;
+            z-index: 8;
+          }
+        }
+      }
+
+      &--selected {
+        background-color: $primary-color;
+        color: $white-color;
+      }
+    }
+
+    .select-input {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      &__list {
+        position: absolute;
+        display: none;
+        right: 0;
+        background-color: $white-color;
+        width: 180px;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.06);
+      }
+
+      &__item {
+
+      }
+
+      &__link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 4px 16px;
+        line-height: 2rem;
+        color: #333333;
+
+
+        &.selected {
+          color: $primary-color;
+        }
+
+        i {
+          font-size: 1.25rem;
+          margin-top: -8px;
+        }
+      }
+    }
+
+  }
+
+}
+
+
+@media (max-width: 590px) {
+  .rooms-sort-bar-options__option {
+    margin-top: 8px;
+  }
+}

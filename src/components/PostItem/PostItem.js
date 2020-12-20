@@ -5,8 +5,9 @@ import './PostItem.scss'
 function PostItem(props) {
   const post = props.post;
   const [isFavorite, setIsFavorite] = useState(false);
-  const favoriteOnClick = () => {
+  const favoriteOnClick = (e) => {
     setIsFavorite(!isFavorite);
+    e.preventDefault();
   }
 
   return (
