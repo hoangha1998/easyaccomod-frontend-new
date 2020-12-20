@@ -7,6 +7,8 @@ import {Link} from "react-router-dom";
 import RoomOwner from "./__components/RoomOwner/RoomOwner";
 import RoomRelate from "./__components/RoomRelate/RoomRelate";
 import bannerImg from "../../assets/images/banner-sidebar.png"
+import RoomRating from "./__components/RoomRating/RoomRating";
+import UserRating from "../../components/UserRating/UserRating";
 
 
 
@@ -137,6 +139,10 @@ function RoomsDetail(props) {
                   </div>
 
                 </div>
+
+                <RoomRating/>
+
+                <UserRating/>
               </div>
 
             </div>

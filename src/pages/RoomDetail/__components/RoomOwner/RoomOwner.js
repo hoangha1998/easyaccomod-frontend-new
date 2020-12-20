@@ -16,7 +16,7 @@ function RoomOwner(props) {
 
       <Link className="link-to-profile">Xem trang</Link>
 
-      <Link className="contact">
+      <Link className="contact" to="">
         <i className="material-icons">call</i>
         <span>0836861282</span>
       </Link>
