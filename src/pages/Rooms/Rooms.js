@@ -144,9 +144,9 @@ function Rooms(props) {
                     </li>
                   </ul>
 
-                  <div className="banner-sidebar">
-                    <img  src={bannerImg} alt="banner"/>
-                  </div>
+                  {/*<div className="banner-sidebar">*/}
+                  {/*  <img  src={bannerImg} alt="banner"/>*/}
+                  {/*</div>*/}
 
                   <RoomsFilter/>
 

@@ -5,11 +5,24 @@ import './RoomSortBart.scss'
 function RoomsSortBar(props) {
   return (
     <div className="rooms-sort-bar">
-      <span className="rooms-sort-bar__label">Sắp xếp theo:</span>
-      <div className="rooms-sort-bar-options">
+      <div className="sort-btn-mobile">
+        <div className="d-flex">
+          <i className="material-icons">sort</i>
+          <span>Sắp xếp</span>
+        </div>
+
+        <ul className="sort-list">
+          <li className="sort-item">Mới nhất</li>
+          <li className="sort-item sort-item--selected">Xem nhiều</li>
+          <li className="sort-item">Giá từ thấp đến cao</li>
+          <li className="sort-item">Giá từ cao đến thấp</li>
+        </ul>
+      </div>
+
+      <span className="rooms-sort-bar__label hide-mobile">Sắp xếp theo:</span>
+      <div className="rooms-sort-bar-options hide-mobile">
         <div className="rooms-sort-bar-options__option rooms-sort-bar-options__option--selected">Mới nhất</div>
         <div className="rooms-sort-bar-options__option">Xem nhiều</div>
-        <div className="rooms-sort-bar-options__option">Yêu thích</div>
         <div className="rooms-sort-bar-options__option rooms-sort-bar-options__option--dropdown">
           <div className="select-input">
             <label>Giá</label>
@@ -32,6 +45,14 @@ function RoomsSortBar(props) {
           </ul>
         </div>
       </div>
+
+      <div className="filter-btn-mobile">
+        <div className="d-flex">
+          <span>Bộ lọc</span>
+          <i className="material-icons">filter_alt</i>
+        </div>
+      </div>
+
     </div>
   );
 }
