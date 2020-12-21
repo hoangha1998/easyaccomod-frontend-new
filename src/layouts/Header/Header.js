@@ -39,13 +39,13 @@ function Header(props) {
               </Link>
             </li>
             <li className="header__top-navbar-item header__top-navbar-item--separate">
-              <Link className="header__top-link" to="/">
+              <Link className="header__top-link" to="/register">
                 Đăng ký
               </Link>
             </li>
 
             <li className="header__top-navbar-item">
-              <Link className="header__top-link" to="/">
+              <Link className="header__top-link" to="/login">
                 Đăng nhập
               </Link>
             </li>
@@ -75,13 +75,13 @@ function Header(props) {
 
               <ul className="header__account-menu dropdown">
                 <li className="header__account-menu-item">
-                  <Link to="/">
+                  <Link to="/login">
                     Đăng nhập
                   </Link>
                 </li>
 
                 <li className="header__account-menu-item">
-                  <Link to="/">
+                  <Link to="/register">
                     Đăng ký
                   </Link>
                 </li>

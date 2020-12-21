@@ -41,6 +41,7 @@
     border-radius: 4px;
     animation: fadeIn ease-in 0.2s;
     display: none;
+    z-index: 9;
 
     &::before {
       display: block;
