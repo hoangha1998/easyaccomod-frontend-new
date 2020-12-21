@@ -23,7 +23,7 @@ function App() {
         <Route path="/login" component={Login} exact/>
         <Route path="/register" component={Register} exact/>
         <Route path="/forgot-password" component={ForgotPass} exact/>
-        <Route path="/user" component={User} exact/>
+        <Route path="/user" component={User}/>
         <Route path="/rooms/category/" component={Rooms} exact />
         <Route path="/rooms/:roomID" component={RoomsDetail} />
       </Switch>
