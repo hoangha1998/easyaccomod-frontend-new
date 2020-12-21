@@ -136,3 +136,12 @@ img {
   z-index: 99;
   animation: growth linear 0.1s;
 }
+
+.error-message {
+  color: red;
+  font-size: 12px;
+}
+
+.custom-select__placeholder, .custom-select__control {
+  font-size: 14px;
+}
