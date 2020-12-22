@@ -1,8 +1,9 @@
 import React from 'react';
-import './RoomRelate.scss'
 import {Link} from "react-router-dom";
+import './Favorites.scss';
 
-function RoomRelate(props) {
+function Favorites(props) {
+
   const postList = [
     {
       id: 1,
@@ -57,30 +58,34 @@ function RoomRelate(props) {
   ];
 
   return (
-    <div className="room-relate">
-      <h3 className="room-relate__title">Có thể bạn quan tâm ?</h3>
-
-      <ul className="room-relate__list">
-        {
-          postList.map(post => (
-            <li className="room-relate__item" key={post.id}>
-              <Link to="" className="room-relate__item-link">
-                <div className="room-relate__item-img" style={{backgroundImage: `url(${post.avatarUrl})`}}></div>
-                <div className="room-relate__item-info">
-                  <div className="wrap">
-                    <h3 className="title">{post.title}</h3>
-                    <div className="area">{post.area} m2</div>
-                    <div className="price">{post.price}</div>
+    <div className="user-favorite">
+      <h2 className="user-page-main__heading">Danh sách yêu thích</h2>
+      <div className="user-page-main__body">
+        <div className="favorites">
+          {
+            postList.map((item, index) => (
+              <div className="favorite" key={index}>
+                <Link className="favorite__link" to="#">
+                  <div className="favorite__img" style={{backgroundImage: `url(${item.avatarUrl})`}}></div>
+                  <div className="favorite__info">
+                    <div className="wrap">
+                      <h3 className="title">{item.title}</h3>
+                      <div className="area">{item.area} m2</div>
+                      <div className="price">{item.price}</div>
+                    </div>
+                    <div className="address">{item.address}</div>
                   </div>
-                  <div className="address">{post.address}</div>
-                </div>
-              </Link>
-            </li>
-          ))
-        }
-      </ul>
+                  <div className="favorite__action" title="Xóa">
+                    <i className="material-icons">delete_outline</i>
+                  </div>
+                </Link>
+              </div>
+            ))
+          }
+        </div>
+      </div>
     </div>
   );
 }
 
-export default RoomRelate;
+export default Favorites;

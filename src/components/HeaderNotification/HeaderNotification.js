@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import './HeaderNotification.scss';
 
 function HeaderNotification(props) {
-  const hasLogin = false;
+  const hasLogin = true;
 
 
   return (

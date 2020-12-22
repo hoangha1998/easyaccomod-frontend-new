@@ -32,7 +32,7 @@ function Sidebar(props) {
           <li className="user-nav-item">
             <NavLink className="user-nav-item__link" to="/user/favorites">
               <i className="material-icons pink-color">favorite</i>
-              <span className="user-nav-item__link-label">Danh sách yêu thích</span>
+              <span className="user-nav-item__link-label">Yêu thích</span>
             </NavLink>
           </li>
 
