@@ -2,6 +2,7 @@
 @import "../../../../assets/css/_mixin";
 
 .user-profile {
+  min-height: 480px;
 
   &__wrapper {
     display: flex;
