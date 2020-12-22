@@ -45,8 +45,17 @@ img {
   display: inline-block;
   padding: 6px 12px;
   color: #ffffff;
-  background-color: $primary-color-contrast;
-  border-radius: 4px;
+  background-color: $yellow-color;
+  border-radius: 2px;
+  border: 0;
+  outline: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: $primary-color;
+  }
 }
 
 .dropdown {

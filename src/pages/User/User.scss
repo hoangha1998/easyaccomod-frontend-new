@@ -1,0 +1,26 @@
+@import "../../assets/css/_vars";
+
+.user-page {
+
+  &__wrapper {
+   padding-top: 20px;
+  }
+
+  .user-page-main {
+    background-color: $white-color;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+    padding: 20px 16px;
+    border-radius: 4px;
+
+    &__heading {
+      margin: 0 0 10px;
+      font-weight: 500;
+      color: $title-color;
+      font-size: 1.25rem;
+    }
+
+    &__body {
+      padding: 10px 0;
+    }
+  }
+}
