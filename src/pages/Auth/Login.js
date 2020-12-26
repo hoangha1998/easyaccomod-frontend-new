@@ -6,6 +6,8 @@ import {Field, Formik} from 'formik';
 import ErrorMessage from '../../components/Form/ErrorMessage';
 import {loginAPI} from '../../api';
 import {loginSuccessAC} from '../../redux/actions';
+import {toast} from 'react-toastify';
+import {getApiErrorMessage} from '../../common/helpers';
 
 class Login extends React.PureComponent {
   state = {
@@ -13,7 +15,6 @@ class Login extends React.PureComponent {
       username: '',
       password: '',
     },
-    error: null,
   };
 
   validate = (values) => {
@@ -32,20 +33,18 @@ class Login extends React.PureComponent {
 
   onSubmit = (values, {setSubmitting}) => {
     const {dispatch} = this.props;
-    this.setState({error: null});
     loginAPI(values).then((res) => {
       setSubmitting(false);
       dispatch(loginSuccessAC(res.data.data));
+      toast.success('Đăng nhập thành công.');
     }).catch((error) => {
+      toast.error(getApiErrorMessage(error));
       setSubmitting(false);
-      this.setState({
-        error,
-      });
     });
   };
 
   render() {
-    const {initialValues, error} = this.state;
+    const {initialValues} = this.state;
     return (
       <Formik
         initialValues={initialValues}
@@ -63,10 +62,6 @@ class Login extends React.PureComponent {
                   <h2 className="auth-page__heading">Đăng nhập</h2>
                   <div className="auth-page__body">
                     <form className="auth-form">
-                      {
-                        error &&
-                        <div className="alert alert-danger">Đăng nhập thất bại</div>
-                      }
                       <div className="input-group">
                         <label className="input__label">Tên truy cập:</label>
                         <Field type="text" className="input__text" name="username"/>

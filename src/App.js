@@ -2,6 +2,8 @@ import React from "react";
 import {connect} from 'react-redux';
 import Header from "./layouts/Header/Header";
 import {Redirect, Route, Switch} from "react-router-dom";
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Home from "./pages/Home/Home";
 import Rooms from "./pages/Rooms/Rooms";
 import "./assets/css/styles.scss";
@@ -34,6 +36,11 @@ class App extends React.PureComponent {
           <Route path="/rooms/:roomID" component={RoomsDetail}/>
         </Switch>
         <Footer/>
+        <ToastContainer
+          hideProgressBar={true}
+          position="bottom-left"
+          autoClose={3500}
+        />
       </div>
     );
   }

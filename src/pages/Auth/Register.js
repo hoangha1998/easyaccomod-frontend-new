@@ -1,21 +1,12 @@
 import React from 'react';
-import {Link} from "react-router-dom";
 import "./Auth.scss";
 import {USER_ROLE} from '../../common/constants';
-import {Field, Formik} from 'formik';
-import ErrorMessage from '../../components/Form/ErrorMessage';
-import Select from '../../components/Form/Select';
-
-const roleOptions = [
-  {
-    id: USER_ROLE.NORMAL_USER,
-    name: 'Người thuê nhà',
-  },
-  {
-    id: USER_ROLE.HOUSE_OWNER,
-    name: 'Người cho thuê nhà',
-  },
-];
+import {Formik} from 'formik';
+import {registerAPI} from '../../api';
+import {history} from '../../history';
+import RegisterForm from './RegisterForm';
+import {toast} from 'react-toastify';
+import {getApiErrorMessage} from '../../common/helpers';
 
 class Register extends React.PureComponent {
   state = {
@@ -61,7 +52,16 @@ class Register extends React.PureComponent {
   };
 
   onSubmit = (values, {setSubmitting}) => {
-    console.log(values);
+    registerAPI(values).then((res) => {
+      setSubmitting(false);
+      toast.success("Đăng ký thành công, bạn có thể đăng nhập.");
+      setTimeout(() => {
+        history.push('/login');
+      }, 1000);
+    }).catch((error) => {
+      toast.error(getApiErrorMessage(error));
+      setSubmitting(false);
+    });
   };
 
   render() {
@@ -72,142 +72,13 @@ class Register extends React.PureComponent {
         validate={this.validate}
         onSubmit={this.onSubmit}
       >
-        {({
-          handleSubmit,
-          isSubmitting,
-        }) =>
-          (
-            <div className="auth-page register-page page-paper">
-              <div className="grid wide">
-                <div className="auth-page__wrapper">
-                  <h2 className="auth-page__heading">Đăng ký</h2>
-                  <div className="auth-page__body">
-                    <form className="auth-form-register">
-                      <h2 className="auth-form__title">1. Thông tin tài khoản</h2>
-                      <div className="row">
-                        <div className="col c-12 m-6 l-4">
-                          <div className="input-group">
-                            <label className="input__label">Tên truy cập:</label>
-                            <Field type="text" className="input__text" name="username"/>
-                            <ErrorMessage name="username"/>
-                          </div>
-                        </div>
-
-                        <div className="col c-12 m-6 l-4">
-                          <div className="input-group">
-                            <label className="input__label">Mật khẩu:</label>
-                            <Field type="password" className="input__text" name="password"/>
-                            <ErrorMessage name="password"/>
-                          </div>
-                        </div>
-
-
-                        <div className="col c-12 m-6 l-4">
-                          <div className="input-group">
-                            <label className="input__label">Nhập lại mật khẩu:</label>
-                            <Field type="password" className="input__text" name="confirmPassword"/>
-                            <ErrorMessage name="confirmPassword"/>
-                          </div>
-                        </div>
-
-                        <div className="col c-12 m-6 l-4">
-                          <div className="input-group">
-                            <label className="input__label">Loại tài khoản:</label>
-                            <Select
-                              options={roleOptions}
-                              name="role"
-                            />
-                          </div>
-                        </div>
-
-                        <div className="col c-12 m-6 l-4">
-                          <div className="input-group">
-                            <label className="input__label">CCCD / CMND:</label>
-                            <Field type="text" className="input__text" name="id_number"/>
-                            <ErrorMessage name="id_number"/>
-                          </div>
-                        </div>
-
-                      </div>
-
-                      <h2 className="auth-form__title">2. Thông tin cá nhân</h2>
-                      <div className="row">
-                        <div className="col c-12 m-4 l-4">
-                          <div className="input-group">
-                            <label className="input__label">Họ và tên:</label>
-                            <Field type="text" className="input__text" name="full_name"/>
-                            <ErrorMessage name="full_name"/>
-                          </div>
-                        </div>
-
-                        <div className="col c-12 m-4 l-4">
-                          <div className="input-group">
-                            <label className="input__label">Số điện thoại:</label>
-                            <Field type="text" className="input__text" name="phone"/>
-                            <ErrorMessage name="phone"/>
-                          </div>
-                        </div>
-
-                        <div className="col c-12 m-4 l-4">
-                          <div className="input-group">
-                            <label className="input__label">Email:</label>
-                            <Field type="email" className="input__text" name="email"/>
-                            <ErrorMessage name="email"/>
-                          </div>
-                        </div>
-
-                        <div className="col c-12 m-6 l-4">
-                          <div className="input-group">
-                            <label className="input__label">Tỉnh / Thành phố</label>
-                            <Select
-                              options={[]}
-                              name="province_id"
-                            />
-                            <ErrorMessage name="province_id"/>
-                          </div>
-                        </div>
-
-                        <div className="col c-12 m-6 l-4">
-                          <div className="input-group">
-                            <label className="input__label">Quận / Huyện</label>
-                            <Select
-                              options={[]}
-                              name="district_id"
-                            />
-                            <ErrorMessage name="district_id"/>
-                          </div>
-                        </div>
-
-                        <div className="col c-12 m-6 l-4">
-                          <div className="input-group">
-                            <label className="input__label">Phường / Xã</label>
-                            <Select
-                              options={[]}
-                              name="ward_id"
-                            />
-                            <ErrorMessage name="ward_id"/>
-                          </div>
-                        </div>
-
-                        <div className="col c-12 m-6 l-12">
-                          <div className="input-group">
-                            <label className="input__label">Địa chỉ</label>
-                            <input className="input__text" type="text" placeholder="Địa chỉ của bạn"/>
-                            <ErrorMessage name="address"/>
-                          </div>
-                        </div>
-                      </div>
-                      <button className="auth-form-btn" onClick={handleSubmit} disabled={isSubmitting}>Đăng Ký</button>
-                      <div className="auth-more">
-                        <span/>
-                        <Link to="/login">Đăng nhập</Link>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )
+        {({handleSubmit, isSubmitting, values, setFieldValue}) =>
+          <RegisterForm
+            handleSubmit={handleSubmit}
+            isSubmitting={isSubmitting}
+            values={values}
+            setFieldValue={setFieldValue}
+          />
         }
       </Formik>
     );

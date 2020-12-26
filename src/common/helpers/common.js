@@ -70,3 +70,22 @@ export function randomInt(min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
 }
+
+export function getApiErrorMessage(error) {
+  if (error?.response?.data) {
+    const {errors, message} = error.response.data;
+    if (errors?.length) {
+      const itemsHasMsg = errors.find(item => item.msg);
+      if (itemsHasMsg) {
+        return itemsHasMsg.msg;
+      }
+    }
+    if (message) {
+      return message;
+    }
+  }
+  if (error?.message) {
+    return error.message;
+  }
+  return 'Lỗi không xác định';
+}

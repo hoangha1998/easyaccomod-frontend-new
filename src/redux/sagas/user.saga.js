@@ -25,7 +25,7 @@ function* loginSuccessFlow(action) {
     history.push(params.redirectTo);
     return;
   }
-  history.push('/');
+  history.push('/user/profile');
 }
 
 function* logoutFlow(action) {

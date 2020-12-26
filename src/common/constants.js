@@ -1,5 +1,5 @@
 export const STORAGE_KEYS = {
-  Tokens: 'cf-tokens',
+  Tokens: 'es-tokens',
   User: 'user',
 };
 

@@ -11,3 +11,19 @@ export async function getUserInfoAPI() {
 export async function loginAPI(data) {
   return requester.post(`${API_URL}/auth/login`, data);
 }
+
+export async function registerAPI(data) {
+  return requester.post(`${API_URL}/auth/register`, data);
+}
+
+export async function getProvincesAPI() {
+  return requester.get(`${API_URL}/locations/provinces`);
+}
+
+export async function getDistrictsByProvinceAPI(province_id) {
+  return requester.get(`${API_URL}/locations/provinces/${province_id}/districts`);
+}
+
+export async function getWardsByDistrictAPI(district_id) {
+  return requester.get(`${API_URL}/locations/districts/${district_id}/wards`);
+}
