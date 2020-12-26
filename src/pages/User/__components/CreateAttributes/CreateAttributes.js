@@ -57,8 +57,8 @@ class CreateAttributes extends PureComponent {
                     <TableRow>
                       <TableCell align="left">STT</TableCell>
                       <TableCell align="center">Tên tiện ích</TableCell>
-                      <TableCell align="right">Loại</TableCell>
-                      <TableCell align="right">Giá trị</TableCell>
+                      <TableCell align="center">Loại giá trị</TableCell>
+                      <TableCell align="center">Giá trị mặc dịnh</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -68,8 +68,8 @@ class CreateAttributes extends PureComponent {
                             {row.id}
                           </TableCell>
                           <TableCell align="center">{row.name}</TableCell>
-                          <TableCell align="right">{row.value_type}</TableCell>
-                          <TableCell align="right">{row.values}</TableCell>
+                          <TableCell align="center">{row.value_type}</TableCell>
+                          <TableCell align="center">{row.values}</TableCell>
                         </TableRow>
                     ))}
                   </TableBody>

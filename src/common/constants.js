@@ -20,8 +20,10 @@ export const ATTRIBUTE_VALUE_TYPE = {
 };
 
 export const ROOM_TYPE = {
-  FULL_HOUSE: 1,
-  BOARDING_HOUSE: 2,
+  BOARDING_HOUSE: 1,
+  FULL_HOUSE: 2,
+  FULL_APARTMENT: 3,
+  MINI_APARTMENT: 4
 };
 
 export const ROOM_STATUS = {
@@ -32,4 +34,44 @@ export const ROOM_STATUS = {
 export const ROOM_APPROVED_STATUS = {
   NOT_APPROVED: 0,
   APPROVED: 1,
+};
+
+export const ROOM_TERM = {
+  WEEK: 1,
+  MONTH: 2,
+  QUARTER: 3,
+  YEAR: 4,
+};
+
+export const PRICES = [
+  {
+    term: ROOM_TERM.WEEK,
+    price: 300000,
+  },
+  {
+    term: ROOM_TERM.MONTH,
+    price: 1000000,
+  },
+  {
+    term: ROOM_TERM.QUARTER,
+    price: 2800000,
+  },
+  {
+    term: ROOM_TERM.YEAR,
+    price: 10000000,
+  },
+];
+
+export const INVOICE_STATUS = {
+  WAIT_FOR_APPROVE: 1,
+  WAIT_FOR_PAY: 2,
+  PAID: 3,
+  CANCELLED: 4,
+};
+
+export const IMAGE_USED_TYPE = {
+  AVATAR: 'avatar',
+  COVER: 'cover',
+  SLIDE: 'slide',
+  OTHERS: 'others',
 };
