@@ -27,3 +27,15 @@ export async function getDistrictsByProvinceAPI(province_id) {
 export async function getWardsByDistrictAPI(district_id) {
   return requester.get(`${API_URL}/locations/districts/${district_id}/wards`);
 }
+
+export async function getAttributesAPI() {
+  return requester.get(`${API_URL}/attributes`);
+}
+
+export async function addAttributeAPI(data) {
+  return requester.post(`${API_URL}/attributes`, data);
+}
+
+export async function deleteAttributeAPI(id) {
+  return requester.delete(`${API_URL}/attributes/${id}`);
+}
