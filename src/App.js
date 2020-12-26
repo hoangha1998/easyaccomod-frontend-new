@@ -18,7 +18,6 @@ function App() {
       <Header/>
       <Switch>
         <Redirect from="/home" to="/" exact />
-
         <Route path="/" component={Home} exact/>
         <Route path="/login" component={Login} exact/>
         <Route path="/register" component={Register} exact/>

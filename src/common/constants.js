@@ -1,3 +1,8 @@
+export const STORAGE_KEYS = {
+  Tokens: 'cf-tokens',
+  User: 'user',
+};
+
 export const OBJECT_TYPE = {
   USER: 1,
   ROOM: 2,
