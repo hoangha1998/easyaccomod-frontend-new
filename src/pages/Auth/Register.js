@@ -87,7 +87,7 @@ class Register extends React.PureComponent {
                       <div className="row">
                         <div className="col c-12 m-6 l-4">
                           <div className="input-group">
-                            <label className="input__label">Tài khoản:</label>
+                            <label className="input__label">Tên truy cập:</label>
                             <Field type="text" className="input__text" name="username"/>
                             <ErrorMessage name="username"/>
                           </div>

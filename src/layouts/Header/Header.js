@@ -1,25 +1,34 @@
-import React from 'react';
+import React, {Fragment} from 'react';
+import {connect, useDispatch} from 'react-redux';
 import './Header.scss';
 import logo from '../../assets/images/logo.png';
 import appStoreIcon from '../../assets/images/icons/app-store.svg';
-import chPlayIcon from  '../../assets/images/icons/chplay.svg';
+import chPlayIcon from '../../assets/images/icons/chplay.svg';
 import {Link} from "react-router-dom";
 import HeaderSearch from "../../components/HeaderSearch/HeaderSearch";
 import HeaderFavorite from "../../components/HeaderFavorite/HeaderFavorite";
 import HeaderNotification from "../../components/HeaderNotification/HeaderNotification";
 import HeaderNavMobile from "../../components/HeaderNavMobile/HeaderNavMobile";
+import {logoutAC} from '../../redux/actions';
 
-function Header(props) {
+const Header = React.memo(function Header({user}) {
+  const dispatch = useDispatch();
+
+  const handleLogout = (event) => {
+    event.preventDefault();
+    dispatch(logoutAC());
+  };
+
   return (
     <header className="header">
       <div className="header__top hide-for-mobile">
         <div className="grid wide wrap">
           <div className="header__top-collection">
             <span>Tải ứng dụng</span>
-            <Link className="header__top-link-icon" to="/" >
+            <Link className="header__top-link-icon" to="/">
               <img src={appStoreIcon} alt="app-store"/>
             </Link>
-            <Link className="header__top-link-icon" to="/" >
+            <Link className="header__top-link-icon" to="/">
               <img src={chPlayIcon} alt="ch-play"/>
             </Link>
           </div>
@@ -38,17 +47,32 @@ function Header(props) {
                 <span>Trợ giúp</span>
               </Link>
             </li>
-            <li className="header__top-navbar-item header__top-navbar-item--separate">
-              <Link className="header__top-link" to="/register">
-                Đăng ký
-              </Link>
-            </li>
-
-            <li className="header__top-navbar-item">
-              <Link className="header__top-link" to="/login">
-                Đăng nhập
-              </Link>
-            </li>
+            {
+              !user.info &&
+              <Fragment>
+                <li className="header__top-navbar-item header__top-navbar-item--separate">
+                  <Link className="header__top-link" to="/register">
+                    Đăng ký
+                  </Link>
+                </li>
+                <li className="header__top-navbar-item">
+                  <Link className="header__top-link" to="/login">
+                    Đăng nhập
+                  </Link>
+                </li>
+              </Fragment>
+            }
+            {
+              user.info &&
+              <Fragment>
+                <li className="header__top-navbar-item header__top-navbar-item--separate">
+                  <Link className="header__top-link" to="/user/profile">{user.info.full_name}</Link>
+                </li>
+                <li className="header__top-navbar-item">
+                  <a href={`#`} className="header__top-link" onClick={handleLogout}>Đăng xuất</a>
+                </li>
+              </Fragment>
+            }
           </ul>
         </div>
 
@@ -58,7 +82,7 @@ function Header(props) {
 
         <div className="header-with-search">
           <div className="header__logo">
-            <Link className="header__logo-link" to="/" >
+            <Link className="header__logo-link" to="/">
               <img className="header__logo-img" src={logo} alt="Logo"/>
             </Link>
           </div>
@@ -74,21 +98,37 @@ function Header(props) {
               </Link>
 
               <ul className="header__account-menu dropdown">
-                <li className="header__account-menu-item">
-                  <Link to="/login">
-                    Đăng nhập
-                  </Link>
-                </li>
+                {
+                  !user.info &&
+                  <Fragment>
+                    <li className="header__account-menu-item">
+                      <Link to="/login">
+                        Đăng nhập
+                      </Link>
+                    </li>
 
-                <li className="header__account-menu-item">
-                  <Link to="/register">
-                    Đăng ký
-                  </Link>
-                </li>
+                    <li className="header__account-menu-item">
+                      <Link to="/register">
+                        Đăng ký
+                      </Link>
+                    </li>
+                    {
+                      user.info &&
+                      <Fragment>
+                        <li className="header__account-menu-item">
+                          <Link to="/user/profile">{user.info.full_name}</Link>
+                        </li>
+                        <li className="header__account-menu-item">
+                          <a href={`#`} onClick={handleLogout}>Đăng xuất</a>
+                        </li>
+                      </Fragment>
+                    }
+                  </Fragment>
+                }
               </ul>
             </div>
 
-            <HeaderNavMobile/>
+            <HeaderNavMobile user={user}/>
 
           </div>
 
@@ -96,6 +136,10 @@ function Header(props) {
       </div>
     </header>
   );
-}
+});
 
-export default Header;
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+export default connect(mapStateToProps)(Header);

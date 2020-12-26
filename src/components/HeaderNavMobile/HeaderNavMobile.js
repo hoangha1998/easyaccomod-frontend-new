@@ -1,35 +1,41 @@
 import React, {Fragment, useState} from 'react';
 import './HeaderNavMobile.scss'
 import {Link} from "react-router-dom";
+import {useDispatch} from 'react-redux';
+import {logoutAC} from '../../redux/actions';
 
-function HeaderNavMobile(props) {
+function HeaderNavMobile({user}) {
   const [isActive, setIsActive] = useState(false);
+  const dispatch = useDispatch();
   const handleOnClick = () => {
     setIsActive(!isActive);
   }
+  const handleLogout = (event) => {
+    event.preventDefault();
+    dispatch(logoutAC());
+  };
 
-  const isLogged = true;
+  const isLogged = user.isAuthenticated;
   return (
     <div className="header__navbar-mobile hide-for-desktop" onClick={handleOnClick}>
-      <div className={`menu-icon ` + `${isActive ? 'open-menu' : ''}`}>
-        <span></span>
-        <span></span>
-        <span></span>
-        <div className="menu_overlay"></div>
+      <div className={`menu-icon ${isActive ? 'open-menu' : ''}`}>
+        <span/>
+        <span/>
+        <span/>
+        <div className="menu_overlay"/>
       </div>
-
       <ul className="menu-mobile">
         {
           !isLogged &&
             <Fragment>
               <li className="menu-item">
-                <Link to="/">
+                <Link to="/login">
                   <i className="material-icons">login</i>
                   <span>Đăng nhập</span>
                 </Link>
               </li>
               <li className="menu-item">
-                <Link to="/">
+                <Link to="/register">
                   <i className="material-icons">person_add</i>
                   <span>Đăng ký</span>
                 </Link>
@@ -38,7 +44,7 @@ function HeaderNavMobile(props) {
         }
 
         {
-          isLogged &&
+          isLogged && user.info &&
             <Fragment>
               <li className="menu-item">
                 <Link to="/">
@@ -60,10 +66,10 @@ function HeaderNavMobile(props) {
               </li>
 
               <li className="menu-item">
-                <Link to="/">
+                <a onClick={handleLogout} href="#">
                   <i className="material-icons black-color">login</i>
                   <span>Đăng xuất</span>
-                </Link>
+                </a>
               </li>
             </Fragment>
         }

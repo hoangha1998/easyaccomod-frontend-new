@@ -5,20 +5,21 @@ import {
   checkRememberedUserSuccessAC,
   GET_CURRENT_USER_AC,
   GET_CURRENT_USER_SUCCESS_AC,
+  getCurrentUserAC,
   getCurrentUserSuccessAC,
   LOGIN_SUCCESS_AC,
   LOGOUT_AC,
   logoutAC,
   logoutSuccessAC
 } from '../actions';
-import {getQueryParams} from '../../common/helpers';
-import {getValueFromStorage, removeValueFromStorage, storeValueToStorage} from '../../common/helpers';
+import {getQueryParams, getValueFromStorage, removeValueFromStorage, storeValueToStorage} from '../../common/helpers';
 import {STORAGE_KEYS} from '../../common/constants';
 import {getUserInfoAPI} from '../../api';
 
-function loginSuccessFlow(action) {
+function* loginSuccessFlow(action) {
   const {tokens} = action;
   storeValueToStorage(STORAGE_KEYS.Tokens, tokens);
+  yield put(getCurrentUserAC());
   const params = getQueryParams();
   if (params.redirectTo) {
     history.push(params.redirectTo);
@@ -40,14 +41,14 @@ function* checkRememberedUserFlow() {
     const tokens = getValueFromStorage(STORAGE_KEYS.Tokens);
     if (!tokens) {
       yield put(checkRememberedUserSuccessAC(false));
-      history.push('/login');
+      // history.push('/login');
     } else {
       const {data: {data}} = yield call(getUserInfoAPI);
       yield put(getCurrentUserSuccessAC(data));
     }
   } catch (e) {
     yield put(checkRememberedUserSuccessAC(false));
-    history.push('/login');
+    // history.push('/login');
   }
 }
 
