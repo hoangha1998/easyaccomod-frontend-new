@@ -43,7 +43,7 @@ class Accounts extends React.PureComponent{
   render() {
     return (
       <div className="accounts">
-        <h2 className="user-page-main__heading">Danh sách tài khoản</h2>
+        <h2 className="user-page-main__heading">Danh sách tài khoản chủ nhà</h2>
         <div className="user-page-main__body">
           <div className="accounts__wrapper">
             <div className="user-list-table">
