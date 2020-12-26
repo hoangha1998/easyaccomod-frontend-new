@@ -6,6 +6,8 @@ import Sidebar from "./__components/Sidebar/Sidebar";
 import Profile from "./__components/Profile/Profile";
 import Notifications from "./__components/UserNotification/Notifications";
 import Favorites from "./__components/Favorites/Favorites";
+import CreatePost from "./__components/CreatePost/CreatePost";
+import CreateAttributes from "./__components/CreateAttributes/CreateAttributes";
 
 function User() {
   return (
@@ -21,6 +23,8 @@ function User() {
                 <Route path="/user/profile" component={Profile} exact={true}/>
                 <Route path="/user/notifications" component={Notifications} exact={true}/>
                 <Route path="/user/favorites" component={Favorites} exact={true}/>
+                <Route path="/user/post/created" component={CreatePost} exact={true}/>
+                <Route path="/user/post/attributes" component={CreateAttributes} exact={true}/>
               </div>
             </div>
           </div>

@@ -146,6 +146,20 @@ img {
   animation: growth linear 0.1s;
 }
 
+.ea-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .paper {
+    background-color: #ffffff;
+    padding: 20px;
+    border: 0;
+    outline: none;
+    border-radius: 2px;
+  }
+}
+
 .error-message {
   color: red;
   font-size: 12px;
@@ -154,3 +168,51 @@ img {
 .custom-select__placeholder, .custom-select__control {
   font-size: 14px;
 }
+
+/* Form */
+
+.ea-form {
+
+  .input-group {
+    margin-bottom: 16px;
+    position: relative;
+
+    .label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .input[type='text'] {
+      min-height: 38px;
+    }
+
+    .input {
+      width: 100%;
+      padding: 6px 10px;
+      border: 1px solid hsl(0,0%,80%);
+      border-radius: 2px;
+
+      &:focus {
+        outline-color: $primary-color;
+      }
+    }
+  }
+
+  &__btn {
+   button {
+     padding: 8px 16px;
+     border: 0;
+     color: $white-color;
+     background-color: $yellow-color;
+     border-radius: 2px;
+     outline: none;
+
+     &:hover {
+       background-color: $primary-color;
+     }
+   }
+  }
+}
+
+

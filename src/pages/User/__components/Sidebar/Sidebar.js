@@ -39,6 +39,20 @@ function Sidebar(props) {
           <li className="user-nav-item">
             <h3 className="user-nav-item__label">Quản lí bài viết</h3>
           </li>
+
+          <li className="user-nav-item">
+            <NavLink className="user-nav-item__link" to="/user/post/created">
+              <i className="material-icons" style={{color: '#26de81'}}>post_add</i>
+              <span className="user-nav-item__link-label">Thêm tin mới</span>
+            </NavLink>
+          </li>
+
+          <li className="user-nav-item">
+            <NavLink className="user-nav-item__link" to="/user/post/attributes">
+              <i className="material-icons" style={{color: '#fd9644'}}>post_add</i>
+              <span className="user-nav-item__link-label">Thêm tiện ích</span>
+            </NavLink>
+          </li>
         </ul>
       </div>
 
