@@ -8,6 +8,7 @@ import Notifications from "./__components/UserNotification/Notifications";
 import Favorites from "./__components/Favorites/Favorites";
 import CreatePost from "./__components/CreatePost/CreatePost";
 import CreateAttributes from "./__components/CreateAttributes/CreateAttributes";
+import Accounts from "./__components/Accounts/Accounts";
 
 function User() {
   return (
@@ -25,6 +26,7 @@ function User() {
                 <Route path="/user/favorites" component={Favorites} exact={true}/>
                 <Route path="/user/post/created" component={CreatePost} exact={true}/>
                 <Route path="/user/post/attributes" component={CreateAttributes} exact={true}/>
+                <Route path="/user/accounts/all" component={Accounts} exact={true}/>
               </div>
             </div>
           </div>
