@@ -2,7 +2,12 @@ import React, {Fragment} from 'react';
 import {Field, Formik} from "formik";
 import ErrorMessage from "../../../../components/Form/ErrorMessage";
 import Select from "../../../../components/Form/Select";
-import {ATTRIBUTE_VALUE_TYPE, ROOM_PERIOD_PRICE, ROOM_TERM, ROOM_TYPE} from "../../../../common/constants";
+import {ROOM_TERM, ROOM_TYPE} from "../../../../common/constants";
+import {addRoomApi, getAttributesAPI} from '../../../../api';
+import {toast} from 'react-toastify';
+import {getApiErrorMessage} from '../../../../common/helpers';
+import RoomAttributes from './RoomAttributes';
+import SelectLocations from '../../../../components/Form/SelectLocations';
 
 const typeOptions = [
   {
@@ -21,7 +26,6 @@ const typeOptions = [
     id: ROOM_TYPE.BOARDING_HOUSE,
     name: "Phòng trọ"
   }
-
 ];
 
 const roomPeriod = [
@@ -37,68 +41,32 @@ const roomPeriod = [
     id: ROOM_TERM.YEAR,
     name: 'Năm'
   }
-]
+];
 
-const roomAttributes = [
+const termOptions = [
   {
-    id: 1,
-    name: "Diện tích",
-    value_type: ATTRIBUTE_VALUE_TYPE.INTEGER,
-    values: '',
-  },
-
-  {
-    id: 2,
-    name: "Chung chủ",
-    value_type: ATTRIBUTE_VALUE_TYPE.TEXT,
-    values: [
-      {
-        id: 1,
-        name: 'Có'
-      },
-      {
-        id: 2,
-        name: 'Không'
-      },
-    ]
+    id: ROOM_TERM.WEEK,
+    name: 'Tuần',
   },
   {
-    id: 3,
-    name: "Phòng tắm",
-    value_type: ATTRIBUTE_VALUE_TYPE.TEXT,
-    values: [
-      {
-        id: 1,
-        name: 'Khép kín'
-      },
-      {
-        id: 2,
-        name: 'Chung'
-      },
-    ],
+    id: ROOM_TERM.MONTH,
+    name: 'Tháng',
   },
   {
-    id: 4,
-    name: "Điều hòa",
-    value_type: ATTRIBUTE_VALUE_TYPE.TEXT,
-    values: [
-      {
-        id: 1,
-        name: 'Có'
-      },
-      {
-        id: 2,
-        name: 'Không'
-      },
-    ],
+    id: ROOM_TERM.QUARTER,
+    name: 'Quý',
+  },
+  {
+    id: ROOM_TERM.YEAR,
+    name: 'Năm',
   }
-]
+];
 
 class CreatePost extends React.PureComponent {
   state = {
     initialValues: {
       title: '',
-      city_id: '',
+      province_id: '',
       district_id: '',
       ward_id: '',
       address: '',
@@ -110,24 +78,63 @@ class CreatePost extends React.PureComponent {
       expires_at: '',
       price: '',
       period: '',
+      term: '',
+      term_qty: '',
+      owner_full_name: '',
+      owner_phone: '',
     },
+    attributes: [],
+    isLoaded: false,
+  };
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    getAttributesAPI().then(res => {
+      const attributes = (res.data.data || []);
+      attributes.forEach(item => {
+        if (item.predefined_values) {
+          item.predefined_values = item.predefined_values.map(v => ({
+            id: v,
+            name: v,
+          }));
+        }
+      });
+      this.setState(prevState => {
+        const initialValues = {...prevState.initialValues};
+        if (attributes.length) {
+          attributes.forEach(item => {
+            initialValues[`attribute_${item.id}`] = '';
+          });
+        }
+        return {
+          attributes,
+          initialValues,
+          isLoaded: true,
+        };
+      });
+    }).catch(error => {
+      toast.error(getApiErrorMessage(error));
+    });
   };
 
   validate = (values) => {
     const errors = {};
     const requireFields = [
-        'title',
-        'city_id',
-        'district_id',
-        'ward_id',
-        'address',
-        'description',
-        'type',
-        'price',
+      'title',
+      'province_id',
+      'district_id',
+      'ward_id',
+      'address',
+      'description',
+      'type',
+      'price',
     ];
 
     requireFields.forEach(field => {
-      if(!values[field] || (typeof values[field] === 'string' && !values[field].trim())) {
+      if (!values[field] || (typeof values[field] === 'string' && !values[field].trim())) {
         errors[field] = 'Vui lòng điền vào trường  này.';
       }
     });
@@ -136,127 +143,149 @@ class CreatePost extends React.PureComponent {
   };
 
   onSubmit = (values, {setSubmitting}) => {
-    console.log(values);
+    addRoomApi(values).then(() => {
+      setSubmitting(false);
+      toast.success('Đã lưu, vui lòng chờ phê duyệt.');
+    }).catch(error => {
+      setSubmitting(false);
+      toast.error(getApiErrorMessage(error));
+    });
   };
 
   render() {
-    const {initialValues} = this.state;
+    const {initialValues, attributes, isLoaded} = this.state;
 
-    return (
+    if (!isLoaded) {
+      return (
         <div className="create-post">
           <h2 className="user-page-main__heading">Thêm tin mới</h2>
           <div className="user-page-main__body">
             <div className="create-post__wrapper">
-              <Formik
-                initialValues={initialValues}
-                validate={this.validate}
-                onSubmit={this.onSubmit}
-              >
-                {({
-                  handleSubmit,
-                  isSubmitting,
-                }) => (
-                  <Fragment>
-                    <form className="ea-form">
-                      <div className="row">
-                        <div className="col c-12 m-12 l-12">
-                          <div className="input-group">
-                            <label className="label">Tiêu đề:</label>
-                            <Field type="text" className="input" name="title"/>
-                            <ErrorMessage name="title"/>
-                          </div>
-                        </div>
-                        <div className="col c-12 m-5 l-5">
-                          <div className="input-group">
-                            <label className="label">Loại phòng:</label>
-                            <Select options={typeOptions} name="type"/>
-                            <ErrorMessage name="type"/>
-                          </div>
-                        </div>
+              Loading...
+            </div>
+          </div>
+        </div>
+      );
+    }
 
-                        <div className="col c-12 m-3 l-3">
-                          <div className="input-group">
-                            <label className="label">Thời gian:</label>
-                            <Select
-                              options={roomPeriod}
-                              name="period"
-                            />
-                            <ErrorMessage name="period"/>
-                          </div>
+    return (
+      <div className="create-post">
+        <h2 className="user-page-main__heading">Thêm tin mới</h2>
+        <div className="user-page-main__body">
+          <div className="create-post__wrapper">
+            <Formik
+              initialValues={initialValues}
+              validate={this.validate}
+              onSubmit={this.onSubmit}
+            >
+              {({
+                handleSubmit,
+                isSubmitting,
+                values,
+              }) => (
+                <Fragment>
+                  <form className="ea-form">
+                    <div className="row">
+                      <div className="col c-12 m-12 l-12">
+                        <div className="input-group">
+                          <label className="label">Tiêu đề:</label>
+                          <Field type="text" className="input" name="title"/>
+                          <ErrorMessage name="title"/>
                         </div>
-
-                        <div className="col c-12 m-4 l-4">
-                          <div className="input-group">
-                            <label className="label">Giá:</label>
-                            <Field type="text" className="input" name="price"/>
-                            <ErrorMessage name="price"/>
-                          </div>
+                      </div>
+                      <div className="col c-12 m-4 l-4">
+                        <div className="input-group">
+                          <label className="label">Loại phòng:</label>
+                          <Select options={typeOptions} name="type"/>
+                          <ErrorMessage name="type"/>
                         </div>
                       </div>
 
-                      {/* Attributes Room */}
-
-                      <div className="row">
-                        {
-                          roomAttributes.map(item => (
-                              <div className="col c-12 m-6 l-4" key={item.id}>
-                                <div className="input-group">
-                                  <label className="label">{item.name}:</label>
-                                  {
-                                    item.values &&
-                                        <Select
-                                            options={item.values}
-                                           name={item.id}
-                                        />
-                                  }
-
-                                  {
-                                    !item.values &&
-                                       <>
-                                         <Field className="input" type="text"  name={item.id} />
-                                         <ErrorMessage name={item.id}/>
-                                       </>
-                                  }
-
-                                </div>
-                              </div>
-                          ))
-                        }
-
+                      <div className="col c-12 m-4 l-4">
+                        <div className="input-group">
+                          <label className="label">Thời gian:</label>
+                          <Select
+                            options={roomPeriod}
+                            name="period"
+                          />
+                          <ErrorMessage name="period"/>
+                        </div>
                       </div>
 
-                      <div className="row">
-                        <div className="col l-12">
-                          <div className="input-group">
-                            <lable className="label">Hình ảnh:</lable>
-                            <Field name="images" type="file"/>
-                          </div>
+                      <div className="col c-12 m-4 l-4">
+                        <div className="input-group">
+                          <label className="label">Giá:</label>
+                          <Field type="text" className="input" name="price"/>
+                          <ErrorMessage name="price"/>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <SelectLocations values={values}/>
+                      <div className="col c-12 m-6 l-12">
+                        <div className="input-group">
+                          <label className="input__label">Địa chỉ</label>
+                          <Field name="address" className="input" type="text"/>
+                          <ErrorMessage name="address"/>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Attributes Room */}
+
+                    <div className="row">
+                      <RoomAttributes attributes={attributes}/>
+                    </div>
+
+                    <div className="row">
+                      <div className="col l-12">
+                        <div className="input-group">
+                          <label className="label">Hình ảnh:</label>
+                          <input name="files" type="file"/>
+                        </div>
+                      </div>
+
+                      <div className="col l-12">
+                        <div className="input-group">
+                          <label className="label">Mô tả:</label>
+                          <Field as="textarea" rows="6" name="description" className="input"/>
                         </div>
 
-                        <div className="col l-12">
-                          <div className="input-group">
-                            <lable className="label">Mô tả:</lable>
-                            <Field as="textarea" rows="6" name="description" className="input"/>
-                          </div>
+                      </div>
+                    </div>
 
+                    <div className="row">
+                      <div className="col l-6">
+                        <div className="input-group">
+                          <label className="label">Thời gian đăng phòng:</label>
+                          <Select
+                            options={termOptions}
+                            name="term"
+                          />
+                          <ErrorMessage name="term"/>
                         </div>
                       </div>
 
                       <div className="col l-6">
-
+                        <div className="input-group">
+                          <label className="label">Số lượng:</label>
+                          <Field type="text" className="input" name="term_qty"/>
+                          <ErrorMessage name="term_qty"/>
+                        </div>
                       </div>
-                      <div className="col l-6"></div>
+                    </div>
 
-                      <div className="ea-form__btn">
-                        <button onClick={handleSubmit} disabled={isSubmitting}>Tạo mới</button>
-                      </div>
-                    </form>
-                  </Fragment>
-                )}
-              </Formik>
-            </div>
+                    <div className="ea-form__btn">
+                      <button onClick={handleSubmit} disabled={isSubmitting} type="submit">Tạo mới</button>
+                    </div>
+                  </form>
+                </Fragment>
+              )}
+            </Formik>
           </div>
         </div>
+      </div>
     );
   }
 }

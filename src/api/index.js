@@ -39,3 +39,7 @@ export async function addAttributeAPI(data) {
 export async function deleteAttributeAPI(id) {
   return requester.delete(`${API_URL}/attributes/${id}`);
 }
+
+export async function addRoomApi(data) {
+  return requester.post(`${API_URL}/rooms`, data);
+}
