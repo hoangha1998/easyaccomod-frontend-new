@@ -10,6 +10,7 @@ import CreatePost from "./__components/CreatePost/CreatePost";
 import CreateAttributes from "./__components/CreateAttributes/CreateAttributes";
 import Accounts from "./__components/Accounts/Accounts";
 import UserPosts from "./__components/UserPosts/UserPosts";
+import Invoices from "./__components/Invoices/Invoices";
 
 function User() {
   return (
@@ -31,6 +32,7 @@ function User() {
                 <Route path="/admin/accounts/all" component={Accounts} exact={true}/>
                 <Route path="/admin/post/all" component={UserPosts} exact={true}/>
                 <Route path="/admin/post/create" component={CreatePost} exact={true}/>
+                <Route path="/admin/invoices" component={Invoices} exact={true}/>
               </div>
             </div>
           </div>

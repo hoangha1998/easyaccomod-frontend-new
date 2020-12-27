@@ -85,6 +85,14 @@ function Sidebar(props) {
               <span className="user-nav-item__link-label">Thêm tin mới</span>
             </NavLink>
           </li>
+
+          <li className="user-nav-item">
+            <NavLink className="user-nav-item__link" to="/admin/invoices">
+              <i className="material-icons" style={{color: '#ffdd59'}}>receipt_long</i>
+              <span className="user-nav-item__link-label">Hóa đơn</span>
+            </NavLink>
+          </li>
+
         </ul>
       </div>
 
