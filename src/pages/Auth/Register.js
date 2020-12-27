@@ -1,6 +1,6 @@
 import React from 'react';
 import "./Auth.scss";
-import {USER_ROLE} from '../../common/constants';
+import {USER_ROLE, USER_STATUS} from '../../common/constants';
 import {Formik} from 'formik';
 import {registerAPI} from '../../api';
 import {history} from '../../history';
@@ -54,10 +54,13 @@ class Register extends React.PureComponent {
   onSubmit = (values, {setSubmitting}) => {
     registerAPI(values).then((res) => {
       setSubmitting(false);
-      toast.success("Đăng ký thành công, bạn có thể đăng nhập.");
-      setTimeout(() => {
+      if (res?.data?.data?.status === USER_STATUS.INACTIVE) {
+        toast.success("Đăng ký thành công, vui lòng chờ phê duyệt.");
+        history.push('/');
+      } else {
+        toast.success("Đăng ký thành công, bạn có thể đăng nhập.");
         history.push('/login');
-      }, 1000);
+      }
     }).catch((error) => {
       toast.error(getApiErrorMessage(error));
       setSubmitting(false);

@@ -15,6 +15,7 @@ export const USER_ROLE = {
 };
 
 export const USER_STATUS = {
+  INACTIVE: 0,
   ACTIVE: 1,
   BLOCKED: 10,
 };
