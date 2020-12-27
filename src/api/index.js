@@ -17,6 +17,10 @@ export async function getCurrentUserAPI() {
   return requester.get(`${API_URL}/users/me`);
 }
 
+export async function updateCurrentUserAPI(data) {
+  return requester.put(`${API_URL}/users/me`, data);
+}
+
 export async function getUserInfoAPI(id) {
   return requester.get(`${API_URL}/users/${id}`);
 }
