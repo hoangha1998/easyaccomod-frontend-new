@@ -4,11 +4,18 @@ import './NewPost.scss';
 import {getAvailableRoomsAPI} from '../../../../api';
 import {toast} from 'react-toastify';
 import {getApiErrorMessage, transferRooms} from '../../../../common/helpers';
+import HyperLink from '../../../../components/HyperLink/HyperLink';
 
 class NewPosts extends React.PureComponent {
   state = {
     rooms: [],
     isLoaded: false,
+    hasMore: false,
+    pageInfo: {
+      page: 1,
+      pageSize: 10,
+      totalItems: 0,
+    },
   };
 
   componentDidMount() {
@@ -16,18 +23,35 @@ class NewPosts extends React.PureComponent {
   }
 
   getData = () => {
-    getAvailableRoomsAPI().then(res => {
-      this.setState({
+    const {pageInfo: {page, pageSize}} = this.state;
+    getAvailableRoomsAPI({page, pageSize}).then(res => {
+      const {pageSize, page, totalItems} = res.data.data.pageInfo;
+      const hasMore = totalItems > page * pageSize;
+      const rooms = transferRooms(res.data.data.pageData);
+      this.setState(prevState => ({
         isLoaded: true,
-        rooms: transferRooms(res.data?.data?.pageData || []),
-      });
+        rooms: page === 1 ? rooms : [...prevState.rooms, ...rooms],
+        pageInfo: res.data.data.pageInfo,
+        hasMore,
+      }));
     }).catch(error => {
       toast.error(getApiErrorMessage(error));
     });
   };
 
+  loadMore = () => {
+    this.setState(prevState => {
+      return {
+        pageInfo: {
+          ...prevState.pageInfo,
+          page: prevState.pageInfo.page + 1,
+        }
+      }
+    }, this.getData);
+  };
+
   render() {
-    const {rooms, isLoaded} = this.state;
+    const {rooms, isLoaded, hasMore} = this.state;
     if (!isLoaded) {
       return null;
     }
@@ -51,14 +75,17 @@ class NewPosts extends React.PureComponent {
               </div>
             </div>
 
-            {/*<div className="home-new-posts__more">*/}
-            {/*  <Link className="btn btn-link-more" to="">*/}
-            {/*    <span>Xem thêm</span>*/}
-            {/*    <i className="material-icons">*/}
-            {/*      double_arrow*/}
-            {/*    </i>*/}
-            {/*  </Link>*/}
-            {/*</div>*/}
+            {
+              hasMore &&
+              <div className="home-new-posts__more">
+                <HyperLink className="btn btn-link-more" onClick={this.loadMore}>
+                  <span>Xem thêm</span>
+                  <i className="material-icons">
+                    double_arrow
+                  </i>
+                </HyperLink>
+              </div>
+            }
 
 
           </div>
