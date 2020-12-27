@@ -65,6 +65,10 @@ export async function getRoomsAPI(params) {
   return requester.get(`${API_URL}/rooms`, {params});
 }
 
+export async function getAvailableRoomsAPI(params) {
+  return requester.get(`${API_URL}/rooms/available`, {params});
+}
+
 export async function getInvoicesAPI(params) {
   return requester.get(`${API_URL}/invoices`, {params});
 }

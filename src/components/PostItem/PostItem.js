@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
-import './PostItem.scss'
+import './PostItem.scss';
+import {imageUrl} from '../../common/helpers';
 
 function PostItem(props) {
   const post = props.post;
@@ -8,13 +9,15 @@ function PostItem(props) {
   const favoriteOnClick = (e) => {
     setIsFavorite(!isFavorite);
     e.preventDefault();
-  }
+  };
+
+  const avatar = post.images?.[0];
 
   return (
     <Link to={`rooms/${post.id}`} className="post-item">
-      <div className="post-item__img" style={{backgroundImage: `url(${post.avatarUrl})`}}></div>
+      <div className="post-item__img" style={{backgroundImage: `url(${imageUrl(avatar?.url)})`}}/>
       <h4 className="post-item__title">{post.title}</h4>
-      <div className="post-item__area">{post.area} m2 - {post.room_number}PN</div>
+      {/*<div className="post-item__area">{post.area} m2 - {post.room_number}PN</div>*/}
       <div className="post-item__price">{post.price}</div>
       <div className="post-item__address">
         <i className="material-icons">room</i>

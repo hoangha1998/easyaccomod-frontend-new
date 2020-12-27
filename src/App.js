@@ -34,7 +34,7 @@ class App extends React.PureComponent {
           <Route path="/register" component={Register} exact/>
           <Route path="/forgot-password" component={ForgotPass} exact/>
           <Route path={userRoutes} component={User}/>
-          <Route path="/rooms/category/" component={Rooms} exact/>
+          <Route path="/rooms/category/:type" component={Rooms} exact/>
           <Route path="/rooms/:roomID" component={RoomsDetail}/>
         </Switch>
         <Footer/>

@@ -91,6 +91,9 @@ export function getApiErrorMessage(error) {
 }
 
 export function imageUrl(url) {
+  if (!url) {
+    return '/images/no-image.png';
+  }
   return `${process.env.REACT_APP_API_URL}/${url}`;
 }
 

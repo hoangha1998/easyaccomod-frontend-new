@@ -1,13 +1,16 @@
-import React, {useState} from 'react';
-import './HeaderSearch.scss'
+import React from 'react';
+import './HeaderSearch.scss';
+import {useLocation} from 'react-router-dom';
+import {getQueryParams} from '../../common/helpers';
 
-function HeaderSearch(props) {
-
+function HeaderSearch() {
+  const location = useLocation();
+  const params = getQueryParams(location.search);
   return (
     <div className="header__search">
-      <form className="header__search-form">
+      <form className="header__search-form" action={'/search'} method="GET">
         <div className="header__search-input-group">
-          <input type="text" className="header__search-input" placeholder="Tìm kiếm trên Easy Accomod"/>
+          <input type="text" name="q" defaultValue={params.q || ''} className="header__search-input" placeholder="Tìm kiếm trên Easy Accomod"/>
           <button className="header__search-button" type="submit"><i className="material-icons">search</i></button>
 
           <div className="header__search-history">
