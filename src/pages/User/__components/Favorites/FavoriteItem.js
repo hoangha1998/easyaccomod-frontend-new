@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {getApiErrorMessage, imageUrl} from '../../../../common/helpers';
+import {getApiErrorMessage, imageUrl, numberAsCurrency} from '../../../../common/helpers';
 import {removeFavoriteAPI} from '../../../../api';
 import {toast} from 'react-toastify';
 
@@ -27,8 +27,10 @@ class FavoriteItem extends React.PureComponent {
           <div className="favorite__info">
             <div className="wrap">
               <h3 className="title">{item.title}</h3>
-              <div className="area">{item.area} m2</div>
-              <div className="price">{item.price}</div>
+              {
+                item.area && <div className="area">{item.area} m2</div>
+              }
+              <div className="price">{numberAsCurrency(item.price)}</div>
             </div>
             <div className="address">{item.province?.name}</div>
           </div>

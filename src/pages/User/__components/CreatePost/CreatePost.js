@@ -159,6 +159,8 @@ class CreatePost extends React.PureComponent {
       'term_qty',
       'owner_full_name',
       'owner_phone',
+      'area',
+      'payment_period',
     ];
 
     requireFields.forEach(field => {

@@ -9,17 +9,19 @@ import RoomRelate from "./__components/RoomRelate/RoomRelate";
 import bannerImg from "../../assets/images/banner-sidebar.png";
 import RoomRating from "./__components/RoomRating/RoomRating";
 import UserRating from "../../components/UserRating/UserRating";
-import {getRoomAPI, getUserInfoAPI} from '../../api';
-import {imageUrl, transferRooms} from '../../common/helpers';
+import {favoriteAPI, getIsFavoriteAPI, getRoomAPI, getUserInfoAPI, removeFavoriteAPI} from '../../api';
+import {getApiErrorMessage, imageUrl, numberAsCurrency, transferRooms} from '../../common/helpers';
 import {ROOM_TYPE_NAME} from '../../common/constants';
 import RoomAttribute from '../../components/RoomAttributes/RoomAttribute';
+import {toast} from 'react-toastify';
+import {connect} from 'react-redux';
 
 class RoomsDetail extends React.PureComponent {
   state = {
     isLoaded: false,
     room: null,
     owner: null,
-    isFavorite: false,
+    isFavorite: undefined,
   };
 
   componentDidMount() {
@@ -38,7 +40,7 @@ class RoomsDetail extends React.PureComponent {
       this.setState({
         isLoaded: true,
         ...data,
-      });
+      }, this.getIsFavorite);
     }).catch(() => {
       this.setState({
         isLoaded: true,
@@ -67,8 +69,37 @@ class RoomsDetail extends React.PureComponent {
     };
   };
 
-  handleToggleFavorite = () => {
+  getIsFavorite = () => {
+    const {isAuthenticated} = this.props;
+    const {room} = this.state;
+    if (!isAuthenticated) {
+      this.setState({
+        isFavorite: undefined,
+      });
+      return;
+    }
+    getIsFavoriteAPI(room.id).then(res => {
+      this.setState({
+        isFavorite: res?.data?.data,
+      });
+    }).catch(error => {
+      console.error(error);
+    });
+  };
 
+  toggleFavorite = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const {room} = this.state;
+    const {isFavorite} = this.state;
+    const api = isFavorite ? removeFavoriteAPI : favoriteAPI;
+    api(room.id).then(() => {
+      this.setState({
+        isFavorite: !isFavorite,
+      });
+    }).catch(error => {
+      toast.error(getApiErrorMessage(error));
+    });
   };
 
   render() {
@@ -108,14 +139,19 @@ class RoomsDetail extends React.PureComponent {
                     <h2 className="room__title">{room.title}</h2>
                     <div className="room__overview">
                       <div>
-                        <span className="price">900 triệu</span>
-                        <span className="area"> - 120  m2 - 4PN</span>
+                        <span className="price">{numberAsCurrency(room.price)}</span>
+                        {
+                          room.area && <span className="area"> - {room.area} m2</span>
+                        }
                       </div>
 
-                      <div className="favorite" onClick={this.handleToggleFavorite}>
-                        <span>{isFavorite ? 'Đã lưu' : 'Lưu tin'}</span>
-                        <i className="material-icons">{isFavorite ? 'favorite' : 'favorite_border'}</i>
-                      </div>
+                      {
+                        isFavorite !== undefined &&
+                        <div className="favorite" onClick={this.toggleFavorite}>
+                          <span>{isFavorite ? 'Đã lưu' : 'Lưu tin'}</span>
+                          <i className="material-icons">{isFavorite ? 'favorite' : 'favorite_border'}</i>
+                        </div>
+                      }
 
                     </div>
                     <div className="room__address">
@@ -172,4 +208,8 @@ class RoomsDetail extends React.PureComponent {
   }
 }
 
-export default RoomsDetail;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.user.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(RoomsDetail);

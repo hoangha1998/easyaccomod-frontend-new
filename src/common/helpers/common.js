@@ -142,3 +142,10 @@ export const transferRooms = (rooms) => {
   }
   return arr;
 };
+
+export const numberAsCurrency = (num) => {
+  if (num === undefined || num === null || !num.toLocaleString) {
+    return 'Liên hệ';
+  }
+  return `${num.toLocaleString()} đ`;
+};
