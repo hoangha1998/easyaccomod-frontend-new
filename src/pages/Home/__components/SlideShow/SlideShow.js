@@ -11,8 +11,8 @@ function SlideShow(props) {
 
   const images = [
     {url: 'https://images.wallpaperscraft.com/image/house_cottage_summer_114508_1280x720.jpg'},
-    {url: 'https://images.wallpaperscraft.com/image/home_theater_furniture_style_80216_1280x720.jpg'},
-    {url: 'https://images.wallpaperscraft.com/image/home_art_winter_131726_1280x720.jpg'},
+    {url: 'http://theme-vessel-templates.theme-vessel.ey.r.appspot.com/real-house/img/banner/banner-3.jpg'},
+    {url: 'http://theme-vessel-templates.theme-vessel.ey.r.appspot.com/real-house/img/banner/banner-2.jpg'},
     {url: 'https://images.wallpaperscraft.com/image/building_home_facade_175296_1280x720.jpg'},
 
   ];

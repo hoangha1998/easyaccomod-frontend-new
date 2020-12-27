@@ -95,14 +95,14 @@ class Rooms extends React.PureComponent {
                     {/*  <img  src={bannerImg} alt="banner"/>*/}
                     {/*</div>*/}
 
-                    <RoomsFilter/>
+                    {/*<RoomsFilter/>*/}
 
                   </div>
                 </div>
               </div>
               <div className="col c-12  l-9">
                 <div className="rooms-page-main">
-                  <RoomsSortBar/>
+                  {/*<RoomsSortBar/>*/}
                   {
                     !!rooms.length &&
                     <div className="rooms-page-room-list">

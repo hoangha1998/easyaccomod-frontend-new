@@ -49,6 +49,23 @@ function Footer(props) {
 
             <div className="col c-12 m-6 l-3">
               <div className="footer-col">
+                <h3 className="footer-col__title">Chính sách</h3>
+                <ul className="footer-col__links">
+                  <li className="footer-col-link-item">
+                    <Link to={``}>Chính sách bảo mật</Link>
+                  </li>
+                  <li className="footer-col-link-item">
+                    <Link to={``}>Nội quy</Link>
+                  </li>
+                  <li className="footer-col-link-item">
+                    <Link to={``}>Quyền lợi khách hàng</Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="col c-12 m-6 l-3">
+              <div className="footer-col">
                 <h3 className="footer-col__title">Theo dõi</h3>
                 <ul className="footer-col__links social-list">
                   <li className="footer-col-link-item">
@@ -74,22 +91,7 @@ function Footer(props) {
               </div>
             </div>
 
-            <div className="col c-12 m-6 l-3">
-              <div className="footer-col">
-                <h3 className="footer-col__title">Giới thiệu</h3>
-                <ul className="footer-col__links">
-                  <li className="footer-col-link-item">
-                    <Link to={``}>Giới thiệu</Link>
-                  </li>
-                  <li className="footer-col-link-item">
-                    <Link to={``}>Tuyển dụng</Link>
-                  </li>
-                  <li className="footer-col-link-item">
-                    <Link to={``}>Liên hệ</Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
+
 
           </div>
         </div>

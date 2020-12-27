@@ -34,13 +34,13 @@ const Header = React.memo(function Header({user}) {
           </div>
 
           <ul className="header__top-navbar">
-            <li className="header__top-navbar-item header__top-notify">
+           {/* <li className="header__top-navbar-item header__top-notify">
               <Link className="header__top-link " to="/">
                 <i className="material-icons">notifications_none</i>
                 <span>Thông báo</span>
               </Link>
               <HeaderNotification/>
-            </li>
+            </li>*/}
             <li className="header__top-navbar-item">
               <Link className="header__top-link" to="/">
                 <i className="material-icons">help_outline</i>
@@ -112,17 +112,18 @@ const Header = React.memo(function Header({user}) {
                         Đăng ký
                       </Link>
                     </li>
-                    {
-                      user.info &&
-                      <Fragment>
-                        <li className="header__account-menu-item">
-                          <Link to="/user/profile">{user.info.full_name}</Link>
-                        </li>
-                        <li className="header__account-menu-item">
-                          <a href={`#`} onClick={handleLogout}>Đăng xuất</a>
-                        </li>
-                      </Fragment>
-                    }
+                  </Fragment>
+                }
+
+                {
+                  user.info &&
+                  <Fragment>
+                    <li className="header__account-menu-item">
+                      <Link to="/user/profile">{user.info.full_name}</Link>
+                    </li>
+                    <li className="header__account-menu-item">
+                      <a href={`#`} onClick={handleLogout}>Đăng xuất</a>
+                    </li>
                   </Fragment>
                 }
               </ul>

@@ -40,24 +40,25 @@ function Notifications() {
     <div className="user-notification">
       <h2 className="user-page-main__heading">Thông báo</h2>
       <div className="user-main-page__body">
-        <ul className="notifications">
+        {/*<ul className="notifications">*/}
 
-          {
-            notifications.map((item, index) => (
-              <li className="notification">
-                <div className="notification__img">
-                  <img src={item.img} alt="icon"/>
-                </div>
-                <div className="notification__info">
-                  <div className="content">{item.content}</div>
-                  <span className="created">{item.created}</span>
-                </div>
-              </li>
-            ))
-          }
-        </ul>
+        {/*  {*/}
+        {/*    notifications.map((item, index) => (*/}
+        {/*      <li className="notification">*/}
+        {/*        <div className="notification__img">*/}
+        {/*          <img src={item.img} alt="icon"/>*/}
+        {/*        </div>*/}
+        {/*        <div className="notification__info">*/}
+        {/*          <div className="content">{item.content}</div>*/}
+        {/*          <span className="created">{item.created}</span>*/}
+        {/*        </div>*/}
+        {/*      </li>*/}
+        {/*    ))*/}
+        {/*  }*/}
+        {/*</ul>*/}
 
-        <Pagination/>
+        {/*<Pagination/>*/}
+        <div style={{minHeight: `400px`}}>Tính năng đang được phát triển</div>
       </div>
     </div>
   )

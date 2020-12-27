@@ -7,12 +7,12 @@ function HeaderFavorite(props) {
     backgroundImage: "url(https://cdn.chotot.com/JQxNKBS7OrkzsB5BDioLePXKtnofkxREjlRaVpnL5YQ/preset:listing/plain/5c38c65dc8b0a56ff45dafc4d59bc672-2697211333899878863.jpg)",
   }
 
-  const isLogin =  true;
+  const isLogin =  false;
   const hasFavorite = true;
 
   return (
     <div className="header__favorite hide-mobile">
-      <Link className="header__favorite-link" to="/" >
+      <Link className="header__favorite-link" to="/user/favorites" >
         <i className="material-icons">favorite_border</i>
         <span className="hide-for-mobile">Yêu thích</span>
       </Link>
@@ -72,16 +72,16 @@ function HeaderFavorite(props) {
         </Fragment>
       }
 
-      {
-        !isLogin &&
-        <div className="header__favorite-list header__favorite-list--not-logged">
-          <div className="wrap">
-            <p>Vui lòng đăng nhập để xem danh sách yêu thích</p>
-            <Link className="btn" to="/">Đăng nhập</Link>
-          </div>
+      {/*{*/}
+      {/*  !isLogin &&*/}
+      {/*  <div className="header__favorite-list header__favorite-list--not-logged">*/}
+      {/*    <div className="wrap">*/}
+      {/*      <p>Vui lòng đăng nhập để xem danh sách yêu thích</p>*/}
+      {/*      <Link className="btn" to="/">Đăng nhập</Link>*/}
+      {/*    </div>*/}
 
-        </div>
-      }
+      {/*  </div>*/}
+      {/*}*/}
 
     </div>
   );

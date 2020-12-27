@@ -47,19 +47,19 @@ function HeaderNavMobile({user}) {
           isLogged && user.info &&
             <Fragment>
               <li className="menu-item">
-                <Link to="/">
+                <Link to="/user">
                   <i className="material-icons green-color">person</i>
                   <span>Tài khoản</span>
                 </Link>
               </li>
+              {/*<li className="menu-item">*/}
+              {/*  <Link to="/">*/}
+              {/*    <i className="material-icons blue-color">notifications</i>*/}
+              {/*    <span>Thông báo</span>*/}
+              {/*  </Link>*/}
+              {/*</li>*/}
               <li className="menu-item">
-                <Link to="/">
-                  <i className="material-icons blue-color">notifications</i>
-                  <span>Thông báo</span>
-                </Link>
-              </li>
-              <li className="menu-item">
-                <Link to="/">
+                <Link to="/favorites">
                   <i className="material-icons pink-color">favorite</i>
                   <span>Yêu thích</span>
                 </Link>
