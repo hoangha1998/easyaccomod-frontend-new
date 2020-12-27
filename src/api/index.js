@@ -4,6 +4,15 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 const requester = createRequester();
 
+export const uploadImageAPI = (file, params) => {
+  const formData = new FormData();
+  formData.set('file', file);
+  return requester.post(`${API_URL}/images`, formData, {
+    headers: {'Content-Type': 'multipart/form-data'},
+    params,
+  });
+};
+
 export async function getUserInfoAPI() {
   return requester.get(`${API_URL}/users/me`);
 }

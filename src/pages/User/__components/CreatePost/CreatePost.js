@@ -2,12 +2,14 @@ import React, {Fragment} from 'react';
 import {Field, Formik} from "formik";
 import ErrorMessage from "../../../../components/Form/ErrorMessage";
 import Select from "../../../../components/Form/Select";
-import {ROOM_TERM, ROOM_TYPE} from "../../../../common/constants";
-import {addRoomApi, getAttributesAPI} from '../../../../api';
+import {OBJECT_TYPE, ROOM_TERM, ROOM_TYPE} from "../../../../common/constants";
+import {addRoomApi, getAttributesAPI, uploadImageAPI} from '../../../../api';
 import {toast} from 'react-toastify';
 import {getApiErrorMessage} from '../../../../common/helpers';
 import RoomAttributes from './RoomAttributes';
 import SelectLocations from '../../../../components/Form/SelectLocations';
+import UploadImages from '../../../../components/images/UploadImages';
+import {history} from '../../../../history';
 
 const typeOptions = [
   {
@@ -85,6 +87,7 @@ class CreatePost extends React.PureComponent {
     },
     attributes: [],
     isLoaded: false,
+    images: [],
   };
 
   componentDidMount() {
@@ -120,6 +123,10 @@ class CreatePost extends React.PureComponent {
     });
   };
 
+  onImagesChange = (data) => {
+    this.setState(data);
+  };
+
   validate = (values) => {
     const errors = {};
     const requireFields = [
@@ -143,17 +150,36 @@ class CreatePost extends React.PureComponent {
   };
 
   onSubmit = (values, {setSubmitting}) => {
-    addRoomApi(values).then(() => {
+    this.handleSubmitAsync(values).then(() => {
       setSubmitting(false);
       toast.success('Đã lưu, vui lòng chờ phê duyệt.');
+      history.push('/user/post/all');
     }).catch(error => {
       setSubmitting(false);
       toast.error(getApiErrorMessage(error));
     });
   };
 
+  handleSubmitAsync = async (data) => {
+    const {images} = this.state;
+    const {data: {data: room}} = await addRoomApi(data);
+    if (room && images.length) {
+      try {
+        for (let i = 0; i < images.length; i++) {
+          await uploadImageAPI(images[i], {
+            object_type: OBJECT_TYPE.ROOM,
+            object_id: room.id,
+            used_type: images[i].use_type,
+          });
+        }
+      } catch (error) {
+        toast.warning('Không upload được ảnh');
+      }
+    }
+  };
+
   render() {
-    const {initialValues, attributes, isLoaded} = this.state;
+    const {initialValues, attributes, isLoaded, images} = this.state;
 
     if (!isLoaded) {
       return (
@@ -232,8 +258,6 @@ class CreatePost extends React.PureComponent {
                       </div>
                     </div>
 
-                    {/* Attributes Room */}
-
                     <div className="row">
                       <RoomAttributes attributes={attributes}/>
                     </div>
@@ -242,7 +266,14 @@ class CreatePost extends React.PureComponent {
                       <div className="col l-12">
                         <div className="input-group">
                           <label className="label">Hình ảnh:</label>
-                          <input name="files" type="file"/>
+                          <UploadImages
+                            value={images}
+                            onChange={this.onImagesChange}
+                            fieldName="images"
+                            maxFiles={10}
+                            multiple={true}
+                            useType="avatar"
+                          />
                         </div>
                       </div>
 

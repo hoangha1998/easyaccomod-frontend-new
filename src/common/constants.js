@@ -80,3 +80,5 @@ export const IMAGE_USED_TYPE = {
   SLIDE: 'slide',
   OTHERS: 'others',
 };
+
+export const IMAGE_EXTENSIONS = ['jpg', 'png', 'jpeg', 'gif'];

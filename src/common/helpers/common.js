@@ -89,3 +89,21 @@ export function getApiErrorMessage(error) {
   }
   return 'Lỗi không xác định';
 }
+
+export function imageUrl(url) {
+  return `${process.env.REACT_APP_API_URL}/${url}`;
+}
+
+/**
+ * Get file extension from file name
+ * @param fileName
+ * @return {*}
+ */
+export const getFileExt = (fileName) => {
+  const arr = `${fileName}`.split('.');
+  let ext = arr.pop();
+  if (!ext) {
+    return null;
+  }
+  return ext.toLowerCase();
+};
