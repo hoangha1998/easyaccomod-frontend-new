@@ -179,7 +179,9 @@ class RoomsDetail extends React.PureComponent {
 
                     <div className="room__description">
                       <h3>Thông tin chi tiết:</h3>
-                      {room.description}
+                      <pre>
+                        {room.description}
+                      </pre>
                     </div>
 
                     <div className="room__contact">
