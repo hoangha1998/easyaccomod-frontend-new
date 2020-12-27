@@ -65,6 +65,14 @@ export async function getRoomsAPI(params) {
   return requester.get(`${API_URL}/rooms`, {params});
 }
 
+export async function getInvoicesAPI(params) {
+  return requester.get(`${API_URL}/invoices`, {params});
+}
+
+export async function updateInvoiceAPI(id, status) {
+  return requester.put(`${API_URL}/invoices/${id}`, {status});
+}
+
 export async function getRoomAPI(id) {
   return requester.get(`${API_URL}/rooms/${id}`);
 }
