@@ -73,7 +73,7 @@ class SelectLocations extends React.PureComponent {
       <>
         <div className="col c-12 m-6 l-4">
           <div className="input-group">
-            <label className="input__label">Tỉnh / Thành phố</label>
+            <label className="input__label label">Tỉnh / Thành phố</label>
             <Select
               options={provinces}
               name="province_id"
@@ -84,7 +84,7 @@ class SelectLocations extends React.PureComponent {
 
         <div className="col c-12 m-6 l-4">
           <div className="input-group">
-            <label className="input__label">Quận / Huyện</label>
+            <label className="input__label label">Quận / Huyện</label>
             <Select
               options={districts}
               name="district_id"
@@ -95,7 +95,7 @@ class SelectLocations extends React.PureComponent {
 
         <div className="col c-12 m-6 l-4">
           <div className="input-group">
-            <label className="input__label">Phường / Xã</label>
+            <label className="input__label label">Phường / Xã</label>
             <Select
               options={wards}
               name="ward_id"

@@ -78,12 +78,13 @@ class CreatePost extends React.PureComponent {
       type: '',
       expires_at: '',
       price: '',
-      period: '',
+      payment_period: '',
       term: '',
       term_qty: '',
       owner_full_name: '',
       owner_phone: '',
-      images_placeholder: ''
+      images_placeholder: '',
+      area: ''
     },
     attributes: [],
     isLoaded: false,
@@ -295,31 +296,42 @@ class CreatePost extends React.PureComponent {
 
                         <div className="col c-12 m-4 l-4">
                           <div className="input-group">
-                            <label className="label">Thời gian:</label>
-                            <Select
-                              options={roomPeriod}
-                              name="period"
-                            />
-                            <ErrorMessage name="period"/>
+                            <label className="label">Giá thuê:</label>
+                            <Field type="text" className="input" name="price"/>
+                            <ErrorMessage name="price"/>
                           </div>
                         </div>
 
                         <div className="col c-12 m-4 l-4">
                           <div className="input-group">
-                            <label className="label">Giá:</label>
-                            <Field type="text" className="input" name="price"/>
-                            <ErrorMessage name="price"/>
+                            <label className="label">Chu kỳ thanh toán:</label>
+                            <Select
+                              options={roomPeriod}
+                              name="payment_period"
+                            />
+                            <ErrorMessage name="payment_period"/>
                           </div>
                         </div>
+
                       </div>
 
                       <div className="row">
                         <SelectLocations values={values}/>
-                        <div className="col c-12 m-6 l-12">
+                      </div>
+
+                      <div className="row">
+                        <div className="col c-12 m-8 l-8">
                           <div className="input-group">
-                            <label className="input__label">Địa chỉ</label>
+                            <label className="label">Địa chỉ</label>
                             <Field name="address" className="input" type="text"/>
                             <ErrorMessage name="address"/>
+                          </div>
+                        </div>
+                        <div className="col c-12 m-4 l-4">
+                          <div className="input-group">
+                            <label className="label">Diện tích (m2):</label>
+                            <Field type="text" className="input" name="area"/>
+                            <ErrorMessage name="area"/>
                           </div>
                         </div>
                       </div>
@@ -358,9 +370,19 @@ class CreatePost extends React.PureComponent {
                       </div>
 
                       <div className="row">
+
+
                         <div className="col l-6">
                           <div className="input-group">
                             <label className="label">Thời gian đăng phòng:</label>
+                            <Field type="text" className="input" name="term_qty"/>
+                            <ErrorMessage name="term_qty"/>
+                          </div>
+                        </div>
+
+                        <div className="col l-6">
+                          <div className="input-group">
+                            <label className="label">Đơn vị:</label>
                             <Select
                               options={termOptions}
                               name="term"
@@ -369,13 +391,6 @@ class CreatePost extends React.PureComponent {
                           </div>
                         </div>
 
-                        <div className="col l-6">
-                          <div className="input-group">
-                            <label className="label">Số lượng:</label>
-                            <Field type="text" className="input" name="term_qty"/>
-                            <ErrorMessage name="term_qty"/>
-                          </div>
-                        </div>
                       </div>
 
                       <div className="row">
