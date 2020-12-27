@@ -5,6 +5,7 @@ import {imageUrl} from '../../common/helpers';
 
 function PostItem(props) {
   const post = props.post;
+  console.log(post);
   const [isFavorite, setIsFavorite] = useState(false);
   const favoriteOnClick = (e) => {
     setIsFavorite(!isFavorite);
@@ -21,7 +22,7 @@ function PostItem(props) {
       <div className="post-item__price">{post.price}</div>
       <div className="post-item__address">
         <i className="material-icons">room</i>
-        <span>{post.full_address}</span>
+        <span>{post.province.name}</span>
       </div>
       <div className="post-item__action" onClick={favoriteOnClick}>
         <i className="material-icons">{isFavorite ? 'favorite' : 'favorite_border'}</i>
