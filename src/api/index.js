@@ -21,6 +21,18 @@ export async function getUserInfoAPI(id) {
   return requester.get(`${API_URL}/users/${id}`);
 }
 
+export async function getUsersAPI(params) {
+  return requester.get(`${API_URL}/users`, {params})
+}
+
+export async function updateUserAPI(id, status) {
+  return requester.put(`${API_URL}/users/${id}`, {status})
+}
+
+export async function deleteUserAPI(id) {
+  return requester.delete(`${API_URL}/users/${id}`)
+}
+
 export async function loginAPI(data) {
   return requester.post(`${API_URL}/auth/login`, data);
 }

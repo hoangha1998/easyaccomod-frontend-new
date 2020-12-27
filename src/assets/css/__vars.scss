@@ -14,6 +14,7 @@ $green-color: #05c46b;
 $pink-color: #f53b57;
 $blue-color: #0fbcf9;
 $gray-color: #F4F4F4;
+$gray-color-dark: #9b9b9b;
 $red-color: #EA2027;
 $yellow-color: #ffba00;
 
@@ -32,8 +33,16 @@ $font-med: 1.125rem; //18px
   color: $pink-color;
 }
 
+.red-color {
+  color: $red-color;
+}
+
 .blue-color {
   color:$blue-color;
+}
+
+.gray-color {
+  color: $gray-color-dark;
 }
 
 .black-color {
