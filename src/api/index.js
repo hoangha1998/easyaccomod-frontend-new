@@ -13,8 +13,12 @@ export const uploadImageAPI = (file, params) => {
   });
 };
 
-export async function getUserInfoAPI() {
+export async function getCurrentUserAPI() {
   return requester.get(`${API_URL}/users/me`);
+}
+
+export async function getUserInfoAPI(id) {
+  return requester.get(`${API_URL}/users/${id}`);
 }
 
 export async function loginAPI(data) {
@@ -59,4 +63,8 @@ export async function updateRoomApprovedStatusAPI(id, approved_status) {
 
 export async function getRoomsAPI(params) {
   return requester.get(`${API_URL}/rooms`, {params});
+}
+
+export async function getRoomAPI(id) {
+  return requester.get(`${API_URL}/rooms/${id}`);
 }

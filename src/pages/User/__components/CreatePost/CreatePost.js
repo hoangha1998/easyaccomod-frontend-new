@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import {Field, Formik} from "formik";
 import ErrorMessage from "../../../../components/Form/ErrorMessage";
 import Select from "../../../../components/Form/Select";
-import {OBJECT_TYPE, ROOM_TERM, ROOM_TYPE} from "../../../../common/constants";
+import {ATTRIBUTE_VALUE_TYPE, OBJECT_TYPE, ROOM_TERM, ROOM_TYPE} from "../../../../common/constants";
 import {addRoomApi, getAttributesAPI, uploadImageAPI} from '../../../../api';
 import {toast} from 'react-toastify';
 import {getApiErrorMessage} from '../../../../common/helpers';
@@ -10,6 +10,7 @@ import RoomAttributes from './RoomAttributes';
 import SelectLocations from '../../../../components/Form/SelectLocations';
 import UploadImages from '../../../../components/images/UploadImages';
 import {history} from '../../../../history';
+import {connect} from 'react-redux';
 
 const typeOptions = [
   {
@@ -75,8 +76,6 @@ class CreatePost extends React.PureComponent {
       description: '',
       attributes: [],
       type: '',
-      create_by: '',
-      create_at: '',
       expires_at: '',
       price: '',
       period: '',
@@ -84,17 +83,28 @@ class CreatePost extends React.PureComponent {
       term_qty: '',
       owner_full_name: '',
       owner_phone: '',
+      images_placeholder: ''
     },
     attributes: [],
     isLoaded: false,
     images: [],
   };
 
+  setFieldValueRef = React.createRef();
+
   componentDidMount() {
     this.getData();
   }
 
   getData = () => {
+    const {user} = this.props;
+    this.setState(prevState => ({
+      initialValues: {
+        ...prevState.initialValues,
+        owner_phone: user?.phone,
+        owner_full_name: user?.full_name,
+      }
+    }));
     getAttributesAPI().then(res => {
       const attributes = (res.data.data || []);
       attributes.forEach(item => {
@@ -124,10 +134,13 @@ class CreatePost extends React.PureComponent {
   };
 
   onImagesChange = (data) => {
-    this.setState(data);
+    this.setState(data, () => {
+      this.setFieldValueRef.current('images_placeholder', new Date().getTime());
+    });
   };
 
   validate = (values) => {
+    const {images} = this.state;
     const errors = {};
     const requireFields = [
       'title',
@@ -138,6 +151,10 @@ class CreatePost extends React.PureComponent {
       'description',
       'type',
       'price',
+      'term',
+      'term_qty',
+      'owner_full_name',
+      'owner_phone',
     ];
 
     requireFields.forEach(field => {
@@ -146,11 +163,19 @@ class CreatePost extends React.PureComponent {
       }
     });
 
+    if (values?.description?.length && values.description.length < 10) {
+      errors.description = 'Vui lòng nhập tối thiểu 10 ký tự.'
+    }
+
+    if (!images?.length || images.length < 3) {
+      errors['images_placeholder'] = 'Vui lòng chọn ít nhất 3 ảnh';
+    }
+
     return errors;
   };
 
   onSubmit = (values, {setSubmitting}) => {
-    this.handleSubmitAsync(values).then(() => {
+    this.handleSubmitAsync(this.prepareData(values)).then(() => {
       setSubmitting(false);
       toast.success('Đã lưu, vui lòng chờ phê duyệt.');
       history.push('/user/post/all');
@@ -158,6 +183,35 @@ class CreatePost extends React.PureComponent {
       setSubmitting(false);
       toast.error(getApiErrorMessage(error));
     });
+  };
+
+  prepareData = (values) => {
+    const {attributes} = this.state;
+    const data = {...values};
+    data.attributes = [];
+    const attributeMap = {};
+    attributes.forEach(item => {
+      attributeMap[item.id] = item;
+    });
+    Object.keys(data).forEach(key => {
+      if (key.startsWith('attribute_')) {
+        const attribute_id = key.substr(10);
+        if (attributeMap[attribute_id]) {
+          const attr = {
+            attribute_id: attributeMap[attribute_id].id,
+          };
+          if (attributeMap[attribute_id].value_type === ATTRIBUTE_VALUE_TYPE.TEXT) {
+            attr.text_value = data[key];
+          }
+          if (attributeMap[attribute_id].value_type === ATTRIBUTE_VALUE_TYPE.INTEGER) {
+            attr.int_value = data[key];
+          }
+          data.attributes.push(attr);
+        }
+        delete data[key];
+      }
+    });
+    return data;
   };
 
   handleSubmitAsync = async (data) => {
@@ -208,111 +262,137 @@ class CreatePost extends React.PureComponent {
                 handleSubmit,
                 isSubmitting,
                 values,
-              }) => (
-                <Fragment>
-                  <form className="ea-form">
-                    <div className="row">
-                      <div className="col c-12 m-12 l-12">
-                        <div className="input-group">
-                          <label className="label">Tiêu đề:</label>
-                          <Field type="text" className="input" name="title"/>
-                          <ErrorMessage name="title"/>
+                setFieldValue
+              }) => {
+                this.setFieldValueRef.current = setFieldValue;
+                return (
+                  <Fragment>
+                    <form className="ea-form">
+                      <div className="row">
+                        <div className="col c-12 m-12 l-12">
+                          <div className="input-group">
+                            <label className="label">Tiêu đề:</label>
+                            <Field type="text" className="input" name="title"/>
+                            <ErrorMessage name="title"/>
+                          </div>
                         </div>
-                      </div>
-                      <div className="col c-12 m-4 l-4">
-                        <div className="input-group">
-                          <label className="label">Loại phòng:</label>
-                          <Select options={typeOptions} name="type"/>
-                          <ErrorMessage name="type"/>
+                        <div className="col c-12 m-4 l-4">
+                          <div className="input-group">
+                            <label className="label">Loại phòng:</label>
+                            <Select options={typeOptions} name="type"/>
+                            <ErrorMessage name="type"/>
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="col c-12 m-4 l-4">
-                        <div className="input-group">
-                          <label className="label">Thời gian:</label>
-                          <Select
-                            options={roomPeriod}
-                            name="period"
-                          />
-                          <ErrorMessage name="period"/>
+                        <div className="col c-12 m-4 l-4">
+                          <div className="input-group">
+                            <label className="label">Thời gian:</label>
+                            <Select
+                              options={roomPeriod}
+                              name="period"
+                            />
+                            <ErrorMessage name="period"/>
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="col c-12 m-4 l-4">
-                        <div className="input-group">
-                          <label className="label">Giá:</label>
-                          <Field type="text" className="input" name="price"/>
-                          <ErrorMessage name="price"/>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row">
-                      <SelectLocations values={values}/>
-                      <div className="col c-12 m-6 l-12">
-                        <div className="input-group">
-                          <label className="input__label">Địa chỉ</label>
-                          <Field name="address" className="input" type="text"/>
-                          <ErrorMessage name="address"/>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row">
-                      <RoomAttributes attributes={attributes}/>
-                    </div>
-
-                    <div className="row">
-                      <div className="col l-12">
-                        <div className="input-group">
-                          <label className="label">Hình ảnh:</label>
-                          <UploadImages
-                            value={images}
-                            onChange={this.onImagesChange}
-                            fieldName="images"
-                            maxFiles={10}
-                            multiple={true}
-                            useType="avatar"
-                          />
+                        <div className="col c-12 m-4 l-4">
+                          <div className="input-group">
+                            <label className="label">Giá:</label>
+                            <Field type="text" className="input" name="price"/>
+                            <ErrorMessage name="price"/>
+                          </div>
                         </div>
                       </div>
 
-                      <div className="col l-12">
-                        <div className="input-group">
-                          <label className="label">Mô tả:</label>
-                          <Field as="textarea" rows="6" name="description" className="input"/>
-                        </div>
-
-                      </div>
-                    </div>
-
-                    <div className="row">
-                      <div className="col l-6">
-                        <div className="input-group">
-                          <label className="label">Thời gian đăng phòng:</label>
-                          <Select
-                            options={termOptions}
-                            name="term"
-                          />
-                          <ErrorMessage name="term"/>
+                      <div className="row">
+                        <SelectLocations values={values}/>
+                        <div className="col c-12 m-6 l-12">
+                          <div className="input-group">
+                            <label className="input__label">Địa chỉ</label>
+                            <Field name="address" className="input" type="text"/>
+                            <ErrorMessage name="address"/>
+                          </div>
                         </div>
                       </div>
 
-                      <div className="col l-6">
-                        <div className="input-group">
-                          <label className="label">Số lượng:</label>
-                          <Field type="text" className="input" name="term_qty"/>
-                          <ErrorMessage name="term_qty"/>
+                      <div className="row">
+                        <RoomAttributes attributes={attributes}/>
+                      </div>
+
+                      <div className="row">
+                        <div className="col l-12">
+                          <div className="input-group">
+                            <label className="label">Hình ảnh:</label>
+                            <UploadImages
+                              value={images}
+                              onChange={this.onImagesChange}
+                              fieldName="images"
+                              maxFiles={10}
+                              multiple={true}
+                              useType="avatar"
+                            />
+                            <div className="d-none">
+                              <Field name="images_placeholder" className="input" type="text"/>
+                            </div>
+                            <ErrorMessage name="images_placeholder"/>
+                          </div>
+                        </div>
+
+                        <div className="col l-12">
+                          <div className="input-group">
+                            <label className="label">Mô tả:</label>
+                            <Field as="textarea" rows="6" name="description" className="input"/>
+                            <ErrorMessage name="description"/>
+                          </div>
+
                         </div>
                       </div>
-                    </div>
 
-                    <div className="ea-form__btn">
-                      <button onClick={handleSubmit} disabled={isSubmitting} type="submit">Tạo mới</button>
-                    </div>
-                  </form>
-                </Fragment>
-              )}
+                      <div className="row">
+                        <div className="col l-6">
+                          <div className="input-group">
+                            <label className="label">Thời gian đăng phòng:</label>
+                            <Select
+                              options={termOptions}
+                              name="term"
+                            />
+                            <ErrorMessage name="term"/>
+                          </div>
+                        </div>
+
+                        <div className="col l-6">
+                          <div className="input-group">
+                            <label className="label">Số lượng:</label>
+                            <Field type="text" className="input" name="term_qty"/>
+                            <ErrorMessage name="term_qty"/>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="row">
+                        <div className="col l-6">
+                          <div className="input-group">
+                            <label className="label">Tên liên hệ:</label>
+                            <Field type="text" className="input" name="owner_full_name"/>
+                            <ErrorMessage name="owner_full_name"/>
+                          </div>
+                        </div>
+                        <div className="col l-6">
+                          <div className="input-group">
+                            <label className="label">Số điện thoại liên hệ:</label>
+                            <Field type="text" className="input" name="owner_phone"/>
+                            <ErrorMessage name="owner_phone"/>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="ea-form__btn">
+                        <button onClick={handleSubmit} disabled={isSubmitting} type="submit">Tạo mới</button>
+                      </div>
+                    </form>
+                  </Fragment>
+                )
+              }}
             </Formik>
           </div>
         </div>
@@ -321,4 +401,8 @@ class CreatePost extends React.PureComponent {
   }
 }
 
-export default CreatePost;
+const mapStateToProps = state => ({
+  user: state.user.info,
+});
+
+export default connect(mapStateToProps)(CreatePost);

@@ -14,7 +14,7 @@ import {
 } from '../actions';
 import {getQueryParams, getValueFromStorage, removeValueFromStorage, storeValueToStorage} from '../../common/helpers';
 import {STORAGE_KEYS} from '../../common/constants';
-import {getUserInfoAPI} from '../../api';
+import {getCurrentUserAPI} from '../../api';
 
 function* loginSuccessFlow(action) {
   const {tokens} = action;
@@ -43,7 +43,7 @@ function* checkRememberedUserFlow() {
       yield put(checkRememberedUserSuccessAC(false));
       // history.push('/login');
     } else {
-      const {data: {data}} = yield call(getUserInfoAPI);
+      const {data: {data}} = yield call(getCurrentUserAPI);
       yield put(getCurrentUserSuccessAC(data));
     }
   } catch (e) {
@@ -54,7 +54,7 @@ function* checkRememberedUserFlow() {
 
 function* getCurrentUserInfoFlow() {
   try {
-    const {data: {data}} = yield call(getUserInfoAPI);
+    const {data: {data}} = yield call(getCurrentUserAPI);
     yield put(getCurrentUserSuccessAC(data));
   } catch (e) {
     yield put(logoutAC(true));
