@@ -72,7 +72,7 @@ class UserPosts extends React.PureComponent {
                 <Table aria-label="simple table">
                   <TableHead>
                     <TableRow>
-                      <TableCell align="center">STT</TableCell>
+                      <TableCell align="center">ID</TableCell>
                       <TableCell align="center">Tiêu đề</TableCell>
                       <TableCell align="center">Tình trạng</TableCell>
                       <TableCell align="center">Lượt xem</TableCell>

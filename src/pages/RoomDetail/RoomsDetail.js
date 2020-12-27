@@ -124,7 +124,7 @@ class RoomsDetail extends React.PureComponent {
                     </div>
 
                     {
-                      room.attributes.length &&
+                      !!room.attributes.length &&
                       <div className="room__service">
                         <label className="title">Cơ sở vật chất:</label>
                         <div className="room__service-list">

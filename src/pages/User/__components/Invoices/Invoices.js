@@ -28,7 +28,7 @@ class Invoices extends PureComponent {
     getInvoicesAPI().then(res => {
       this.setState({
         isLoaded: true,
-        invoices: res.data?.data || [],
+        invoices: res.data?.data?.pageData || [],
       })
     }).catch(error => {
       toast.error(getApiErrorMessage(error));
@@ -65,7 +65,7 @@ class Invoices extends PureComponent {
                   <Table  aria-label="simple table">
                     <TableHead>
                       <TableRow>
-                        <TableCell align="left">STT</TableCell>
+                        <TableCell align="left">ID</TableCell>
                         <TableCell align="center">Tin đăng</TableCell>
                         <TableCell align="center">Thời hạn</TableCell>
                         <TableCell align="center">Chi phí</TableCell>
@@ -79,7 +79,7 @@ class Invoices extends PureComponent {
                       {invoices.map((item, index) => (
                           <TableRow key={index}>
                             <TableCell align="left" component="th" scope="row" width={60}>
-                              {index + 1}
+                              {item.id}
                             </TableCell>
                             <TableCell align="center">{item.room_title}</TableCell>
                             <TableCell align="center" width={90}>{item.qty} <SwitchTerm term={item.term} /></TableCell>

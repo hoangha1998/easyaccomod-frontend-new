@@ -12,35 +12,6 @@ import {USER_ROLE, USER_STATUS} from "../../../../common/constants";
 import {getApiErrorMessage} from "../../../../common/helpers";
 import {toast} from "react-toastify";
 
-const listUser = [
-  {
-    id: 1,
-    username:  'hoangha198',
-    full_name: 'Hoàng Thái Hà',
-    phone: '0836861282',
-    email: 'hth@gmail.com',
-    status: false
-  },
-
-  {
-    id: 2,
-    username:  'noname',
-    full_name: 'John Wick',
-    phone: '0836861282',
-    email: 'hth@gmail.com',
-    status: true
-  },
-
-  {
-    id: 3,
-    username:  'hoangha198',
-    full_name: 'Hoàng Thái Hà',
-    phone: '0836861282',
-    email: 'hoangthaiha1998@gmail.com',
-    status: false
-  },
-];
-
 class Accounts extends React.PureComponent{
   state = {
     listUser: [],
@@ -58,9 +29,8 @@ class Accounts extends React.PureComponent{
     getUsersAPI(params).then(res => {
       this.setState({
         isLoaded: true,
-        listUser: res.data?.data || [],
-      })
-
+        listUser: res.data?.data?.pageData || [],
+      });
     }).catch(error => {
       toast.error(getApiErrorMessage(error));
       this.setState({
@@ -91,7 +61,6 @@ class Accounts extends React.PureComponent{
 
   render() {
     const {listUser} = this.state;
-    console.log(listUser);
 
     return (
       <div className="accounts">
@@ -103,7 +72,7 @@ class Accounts extends React.PureComponent{
                 <Table  aria-label="simple table">
                   <TableHead>
                     <TableRow>
-                      <TableCell align="left">STT</TableCell>
+                      <TableCell align="left">ID</TableCell>
                       <TableCell align="center">Tài khoản</TableCell>
                       <TableCell align="center">Họ tên</TableCell>
                       <TableCell align="center">Số điện thoại</TableCell>
@@ -116,7 +85,7 @@ class Accounts extends React.PureComponent{
                     {listUser.map((item, index) => (
                       <TableRow key={index}>
                         <TableCell align="left" component="th" scope="row">
-                          {index + 1}
+                          {item.id}
                         </TableCell>
                         <TableCell align="center">{item.username}</TableCell>
                         <TableCell align="center">{item.full_name}</TableCell>

@@ -76,7 +76,7 @@ class CreateAttributes extends PureComponent {
               <Table aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="left">STT</TableCell>
+                    <TableCell align="left">ID</TableCell>
                     <TableCell align="center">Tên tiện ích</TableCell>
                     <TableCell align="center">Loại giá trị</TableCell>
                     <TableCell align="center">Thao tác</TableCell>

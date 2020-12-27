@@ -37,16 +37,16 @@ function PostStatus({isApproved, isRejected, isPaid}) {
   return null;
 }
 
-function PostItem({item, itemIndex, isAdmin, approvePost}) {
+function PostItem({item, isAdmin, approvePost}) {
   const isApproved = item.approved_status === ROOM_APPROVED_STATUS.APPROVED;
   const isRejected = item.approved_status === ROOM_APPROVED_STATUS.REJECTED;
   const isPaid = !!item.expires_at;
   const isRented = !!item.status;
   const showLink = (isApproved && isPaid) || isAdmin;
   return (
-    <TableRow key={item.id}>
+    <TableRow>
       <TableCell align="center" component="th" scope="row">
-        {itemIndex + 1}
+        {item.id}
       </TableCell>
       <TableCell align="center">
         {
