@@ -4,6 +4,7 @@ import './PostItem.scss';
 import {getApiErrorMessage, imageUrl} from '../../common/helpers';
 import {favoriteAPI, getIsFavoriteAPI, removeFavoriteAPI} from '../../api';
 import {toast} from 'react-toastify';
+import {connect} from 'react-redux';
 
 class PostItem extends React.PureComponent {
   state = {
@@ -14,8 +15,20 @@ class PostItem extends React.PureComponent {
     this.getIsFavorite();
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.isAuthenticated !== this.state.isAuthenticated) {
+      this.getIsFavorite();
+    }
+  }
+
   getIsFavorite = () => {
-    const {post} = this.props;
+    const {post, isAuthenticated} = this.props;
+    if (!isAuthenticated) {
+      this.setState({
+        isFavorite: undefined,
+      });
+      return;
+    }
     getIsFavoriteAPI(post.id).then(res => {
       this.setState({
         isFavorite: res?.data?.data,
@@ -67,4 +80,8 @@ class PostItem extends React.PureComponent {
   }
 }
 
-export default PostItem;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.user.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(PostItem);
