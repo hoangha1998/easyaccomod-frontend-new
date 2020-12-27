@@ -8,7 +8,7 @@ function HeaderSearch() {
   const params = getQueryParams(location.search);
   return (
     <div className="header__search">
-      <form className="header__search-form" action={'/search'} method="GET">
+      <form className="header__search-form" action={'/rooms/search'} method="GET">
         <div className="header__search-input-group">
           <input type="text" name="q" defaultValue={params.q || ''} className="header__search-input" placeholder="Tìm kiếm trên Easy Accomod"/>
           <button className="header__search-button" type="submit"><i className="material-icons">search</i></button>

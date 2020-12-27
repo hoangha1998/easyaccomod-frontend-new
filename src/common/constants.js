@@ -32,6 +32,13 @@ export const ROOM_TYPE = {
   MINI_APARTMENT: 4
 };
 
+export const ROOM_TYPE_NAME = {
+  [ROOM_TYPE.BOARDING_HOUSE]: 'Nhà trọ',
+  [ROOM_TYPE.FULL_HOUSE]: 'Nhà nguyên căn',
+  [ROOM_TYPE.FULL_APARTMENT]: 'Chung cư nguyên căn',
+  [ROOM_TYPE.MINI_APARTMENT]: 'Chung cư mini',
+};
+
 export const ROOM_STATUS = {
   AVAILABLE: 0,
   NOT_AVAILABLE: 1,

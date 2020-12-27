@@ -11,6 +11,7 @@ import RoomRating from "./__components/RoomRating/RoomRating";
 import UserRating from "../../components/UserRating/UserRating";
 import {getRoomAPI, getUserInfoAPI} from '../../api';
 import {imageUrl} from '../../common/helpers';
+import {ROOM_TYPE_NAME} from '../../common/constants';
 
 class RoomsDetail extends React.PureComponent {
   state = {
@@ -69,14 +70,14 @@ class RoomsDetail extends React.PureComponent {
   };
 
   render() {
-    const {isFavorite, isLoaded, room, owner} = this.state;
+    const {isFavorite, isLoaded, room} = this.state;
 
     if (!isLoaded || !room) {
       return (
         <div className="room-detail-page page-paper">
-          <Breadcrumb>
-            <BreadcrumbItem text="Nhà trọ" path={`/rooms/category`}/>
-          </Breadcrumb>
+          {/*<Breadcrumb>*/}
+          {/*  <BreadcrumbItem text="Nhà trọ" path={`/rooms/category`}/>*/}
+          {/*</Breadcrumb>*/}
           <div className="grid wide">
             <div className="room-detail-page__wrap">
               {!isLoaded ? 'Đang tải...' : 'Bài viết không tồn tại.'}
@@ -89,7 +90,7 @@ class RoomsDetail extends React.PureComponent {
     return (
       <div className="room-detail-page page-paper">
         <Breadcrumb>
-          <BreadcrumbItem text="Nhà trọ" path={`/rooms/category`}/>
+          <BreadcrumbItem text={ROOM_TYPE_NAME[room.type]} path={`/rooms/category/${room.type}`}/>
           <BreadcrumbItem text={room.title} path={`/rooms/${room.id}`} isActive={true}/>
         </Breadcrumb>
 

@@ -5,13 +5,13 @@ import imgNhaNguyenCan from '../../../../assets/images/categories/nha-nguyen-can
 import imgChungCuMini from '../../../../assets/images/categories/chung-cu-mini.jpg';
 import imgChungCu from '../../../../assets/images/categories/chung-cu.png';
 import './Categories.scss';
-import {ROOM_TYPE} from '../../../../common/constants';
+import {ROOM_TYPE, ROOM_TYPE_NAME} from '../../../../common/constants';
 
 function Categories() {
   const categories = [
     {
       id: ROOM_TYPE.BOARDING_HOUSE,
-      title: 'Nhà trọ',
+      title: ROOM_TYPE_NAME[ROOM_TYPE.BOARDING_HOUSE],
       avatarUrl: {
         backgroundImage: `url(${imgNhatro})`
       }
@@ -19,7 +19,7 @@ function Categories() {
 
     {
       id: ROOM_TYPE.FULL_HOUSE,
-      title: 'Nhà nguyên căn',
+      title: ROOM_TYPE_NAME[ROOM_TYPE.FULL_HOUSE],
       avatarUrl: {
         backgroundImage: `url(${imgNhaNguyenCan})`
       }
@@ -27,7 +27,7 @@ function Categories() {
 
     {
       id: ROOM_TYPE.MINI_APARTMENT,
-      title: 'Chung cư mini',
+      title: ROOM_TYPE_NAME[ROOM_TYPE.MINI_APARTMENT],
       avatarUrl: {
         backgroundImage: `url(${imgChungCuMini})`
       }
@@ -35,7 +35,7 @@ function Categories() {
 
     {
       id: ROOM_TYPE.FULL_APARTMENT,
-      title: 'Chung cư',
+      title: ROOM_TYPE_NAME[ROOM_TYPE.FULL_APARTMENT],
       avatarUrl: {
         backgroundImage: `url(${imgChungCu})`
       }
