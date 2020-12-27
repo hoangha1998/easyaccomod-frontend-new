@@ -7,7 +7,7 @@ import RoomsFilter from "./__components/RoomsFilter/RoomsFilter";
 import {getAvailableRoomsAPI} from '../../api';
 import {toast} from 'react-toastify';
 import {getApiErrorMessage, getQueryParams} from '../../common/helpers';
-import {ROOM_TYPE_NAME} from '../../common/constants';
+import {ROOM_TYPE, ROOM_TYPE_NAME} from '../../common/constants';
 
 class Rooms extends React.PureComponent {
   state = {
@@ -18,6 +18,12 @@ class Rooms extends React.PureComponent {
 
   componentDidMount() {
     this.getData();
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.match?.params?.type !== this.props.match?.params?.type || prevProps.location?.search !== this.props?.location?.search) {
+      this.getData();
+    }
   }
 
   getData = () => {
@@ -34,7 +40,7 @@ class Rooms extends React.PureComponent {
       this.setState({
         isLoaded: true,
         rooms: res.data?.data?.pageData || [],
-        type: type,
+        type: type * 1,
       });
     }).catch(error => {
       toast.error(getApiErrorMessage(error));
@@ -67,20 +73,21 @@ class Rooms extends React.PureComponent {
 
                   <div className="rooms-page-sidebar__wrapper">
                     <ul className="sidebar-list">
-                      <li className="sidebar-item sidebar-item--active">
-                        <Link to={`/`}>Chung cư</Link>
+
+                      <li className={`sidebar-item ${type === ROOM_TYPE.BOARDING_HOUSE ? 'sidebar-item--active' : ''}`}>
+                        <Link to={`/rooms/category/${ROOM_TYPE.BOARDING_HOUSE}`}>Nhà trọ</Link>
                       </li>
 
-                      <li className="sidebar-item">
-                        <Link to={`/`}>Chung cư mini</Link>
+                      <li className={`sidebar-item ${type === ROOM_TYPE.FULL_HOUSE ? 'sidebar-item--active' : ''}`}>
+                        <Link to={`/rooms/category/${ROOM_TYPE.FULL_HOUSE}`}>Nhà nguyên căn</Link>
                       </li>
 
-                      <li className="sidebar-item">
-                        <Link to={`/`}>Nhà nguyên căn</Link>
+                      <li className={`sidebar-item ${type === ROOM_TYPE.FULL_APARTMENT ? 'sidebar-item--active' : ''}`}>
+                        <Link to={`/rooms/category/${ROOM_TYPE.FULL_APARTMENT}`}>Chung cư nguyên căn</Link>
                       </li>
 
-                      <li className="sidebar-item">
-                        <Link to={`/`}>Nhà trọ</Link>
+                      <li className={`sidebar-item ${type === ROOM_TYPE.MINI_APARTMENT ? 'sidebar-item--active' : ''}`}>
+                        <Link to={`/rooms/category/${ROOM_TYPE.MINI_APARTMENT}`}>Chung cư mini</Link>
                       </li>
                     </ul>
 
