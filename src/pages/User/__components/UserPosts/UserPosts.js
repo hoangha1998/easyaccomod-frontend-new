@@ -14,6 +14,7 @@ class UserPosts extends React.PureComponent {
   state = {
     rooms: [],
     isLoaded: false,
+    isAdminPage: false,
   };
 
   componentDidMount() {
@@ -21,10 +22,13 @@ class UserPosts extends React.PureComponent {
   }
 
   getData = () => {
+    const {match: {path}} = this.props;
+    const isAdminPage = `${path}`.startsWith('/admin');
     getRoomsAPI().then(res => {
       this.setState({
         isLoaded: true,
         rooms: res.data?.data?.pageData || [],
+        isAdminPage,
       });
     }).catch(error => {
       toast.error(getApiErrorMessage(error));
@@ -36,11 +40,11 @@ class UserPosts extends React.PureComponent {
 
 
   render() {
-    const {rooms, isLoaded} = this.state;
+    const {rooms, isLoaded, isAdminPage} = this.state;
     if (!isLoaded) {
       return  (
         <div className="user-posts">
-          <h2 className="user-page-main__heading">Tin của bạn</h2>
+          <h2 className="user-page-main__heading"/>
           <div className="user-page-main__body">
             <div className="user-posts__wrapper">
               Đang tải...
@@ -51,7 +55,7 @@ class UserPosts extends React.PureComponent {
     }
     return (
       <div className="user-posts">
-        <h2 className="user-page-main__heading">Tin của bạn</h2>
+        <h2 className="user-page-main__heading">{isAdminPage ? 'Quản lý tin đăng' : 'Tin của bạn'}</h2>
         <div className="user-page-main__body">
           <div className="user-posts__wrapper">
             <div className="ea-table">

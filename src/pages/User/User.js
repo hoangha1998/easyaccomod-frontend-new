@@ -25,10 +25,12 @@ function User() {
                 <Route path="/user/profile" component={Profile} exact={true}/>
                 <Route path="/user/notifications" component={Notifications} exact={true}/>
                 <Route path="/user/favorites" component={Favorites} exact={true}/>
-                <Route path="/user/post/created" component={CreatePost} exact={true}/>
+                <Route path="/user/post/create" component={CreatePost} exact={true}/>
                 <Route path="/user/post/all" component={UserPosts} exact={true}/>
-                <Route path="/user/post/attributes" component={CreateAttributes} exact={true}/>
-                <Route path="/user/accounts/all" component={Accounts} exact={true}/>
+                <Route path="/admin/post/attributes" component={CreateAttributes} exact={true}/>
+                <Route path="/admin/accounts/all" component={Accounts} exact={true}/>
+                <Route path="/admin/post/all" component={UserPosts} exact={true}/>
+                <Route path="/admin/post/create" component={CreatePost} exact={true}/>
               </div>
             </div>
           </div>

@@ -15,6 +15,8 @@ import ForgotPass from "./pages/Auth/ForgotPass";
 import User from "./pages/User/User";
 import {checkRememberedUserAC} from './redux/actions';
 
+const userRoutes = ['/user', '/admin'];
+
 class App extends React.PureComponent {
   componentDidMount() {
     const {dispatch} = this.props;
@@ -31,7 +33,7 @@ class App extends React.PureComponent {
           <Route path="/login" component={Login} exact/>
           <Route path="/register" component={Register} exact/>
           <Route path="/forgot-password" component={ForgotPass} exact/>
-          <Route path="/user" component={User}/>
+          <Route path={userRoutes} component={User}/>
           <Route path="/rooms/category/" component={Rooms} exact/>
           <Route path="/rooms/:roomID" component={RoomsDetail}/>
         </Switch>
