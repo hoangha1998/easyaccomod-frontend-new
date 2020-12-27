@@ -65,8 +65,8 @@ class NewPosts extends React.PureComponent {
               <div className="row">
 
                 {
-                  rooms.map((post, index) => (
-                    <div className="col c-6 m-4 l-2-4" key={index}>
+                  rooms.map((post) => (
+                    <div className="col c-6 m-4 l-2-4" key={post.id}>
                       <PostItem post={post}/>
                     </div>
                   ))

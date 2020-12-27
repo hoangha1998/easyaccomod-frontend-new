@@ -26,15 +26,15 @@ export async function getUserInfoAPI(id) {
 }
 
 export async function getUsersAPI(params) {
-  return requester.get(`${API_URL}/users`, {params})
+  return requester.get(`${API_URL}/users`, {params});
 }
 
 export async function updateUserAPI(id, status) {
-  return requester.put(`${API_URL}/users/${id}`, {status})
+  return requester.put(`${API_URL}/users/${id}`, {status});
 }
 
 export async function deleteUserAPI(id) {
-  return requester.delete(`${API_URL}/users/${id}`)
+  return requester.delete(`${API_URL}/users/${id}`);
 }
 
 export async function loginAPI(data) {
@@ -95,4 +95,16 @@ export async function updateInvoiceAPI(id, status) {
 
 export async function getRoomAPI(id) {
   return requester.get(`${API_URL}/rooms/${id}`);
+}
+
+export async function getIsFavoriteAPI(room_id) {
+  return requester.get(`${API_URL}/interactions/favorites`, {params: {room_id}});
+}
+
+export async function favoriteAPI(room_id) {
+  return requester.post(`${API_URL}/interactions/favorites`, null, {params: {room_id}});
+}
+
+export async function removeFavoriteAPI(room_id) {
+  return requester.delete(`${API_URL}/interactions/favorites`, {params: {room_id}});
 }
