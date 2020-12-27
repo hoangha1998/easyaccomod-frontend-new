@@ -6,9 +6,10 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import TableContainer from "@material-ui/core/TableContainer";
-import {getRoomsAPI} from '../../../../api';
+import {getRoomsAPI, updateRoomApprovedStatusAPI} from '../../../../api';
 import {toast} from 'react-toastify';
 import {getApiErrorMessage} from '../../../../common/helpers';
+import PostItem from './PostItem';
 
 class UserPosts extends React.PureComponent {
   state = {
@@ -38,11 +39,19 @@ class UserPosts extends React.PureComponent {
     });
   };
 
+  approvePost = (item, status) => () => {
+    updateRoomApprovedStatusAPI(item.id, status).then(() => {
+      toast.success('Đã lưu.');
+      this.getData();
+    }).catch(error => {
+      toast.error(getApiErrorMessage(error));
+    });
+  };
 
   render() {
     const {rooms, isLoaded, isAdminPage} = this.state;
     if (!isLoaded) {
-      return  (
+      return (
         <div className="user-posts">
           <h2 className="user-page-main__heading"/>
           <div className="user-page-main__body">
@@ -51,7 +60,7 @@ class UserPosts extends React.PureComponent {
             </div>
           </div>
         </div>
-      )
+      );
     }
     return (
       <div className="user-posts">
@@ -70,29 +79,20 @@ class UserPosts extends React.PureComponent {
                       <TableCell align="center">Yêu thích</TableCell>
                       <TableCell align="center">Thời hạn</TableCell>
                       <TableCell align="center">Trạng thái</TableCell>
+                      {
+                        isAdminPage &&
+                        <TableCell align="center">Thao tác</TableCell>
+                      }
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {rooms.map((item, index) => (
-                      <TableRow key={index}>
-                        <TableCell align="center" component="th" scope="row">
-                          {index + 1}
-                        </TableCell>
-                        <TableCell align="center">{item.title}</TableCell>
-                        <TableCell align="center" width={120}>
-                           <span className={`table-cell-status table-cell-status--${item.status ? 'primary' : 'disable'}`}>
-                            {item.status ? 'Đã thuê' : 'Chưa thuê'}
-                      </span>
-                        </TableCell>
-                        <TableCell align="center" width={100}>{item.total_views}</TableCell>
-                        <TableCell align="center" width={100}>{item.total_favorites}</TableCell>
-                        <TableCell align="center" width={100}>{item.expires_at}</TableCell>
-                        <TableCell align="center" width={120}>
-                      <span className={`table-cell-status table-cell-status--${item.approved_status ? 'active' : 'block'}`}>
-                        {item.approved_status ? 'Đã duyệt' : 'Chưa duyệt'}
-                      </span>
-                        </TableCell>
-                      </TableRow>
+                      <PostItem
+                        item={item}
+                        itemIndex={index}
+                        isAdmin={isAdminPage}
+                        approvePost={this.approvePost}
+                      />
                     ))}
                   </TableBody>
                 </Table>

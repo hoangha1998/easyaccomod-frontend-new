@@ -53,6 +53,10 @@ export async function addRoomApi(data) {
   return requester.post(`${API_URL}/rooms`, data);
 }
 
+export async function updateRoomApprovedStatusAPI(id, approved_status) {
+  return requester.put(`${API_URL}/rooms/${id}`, {approved_status});
+}
+
 export async function getRoomsAPI(params) {
   return requester.get(`${API_URL}/rooms`, {params});
 }

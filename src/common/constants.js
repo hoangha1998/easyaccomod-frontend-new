@@ -39,6 +39,7 @@ export const ROOM_STATUS = {
 export const ROOM_APPROVED_STATUS = {
   NOT_APPROVED: 0,
   APPROVED: 1,
+  REJECTED: 2,
 };
 
 export const ROOM_TERM = {
