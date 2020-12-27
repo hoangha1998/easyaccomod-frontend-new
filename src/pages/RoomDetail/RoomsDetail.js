@@ -12,6 +12,7 @@ import UserRating from "../../components/UserRating/UserRating";
 import {getRoomAPI, getUserInfoAPI} from '../../api';
 import {imageUrl, transferRooms} from '../../common/helpers';
 import {ROOM_TYPE_NAME} from '../../common/constants';
+import RoomAttribute from '../../components/RoomAttributes/RoomAttribute';
 
 class RoomsDetail extends React.PureComponent {
   state = {
@@ -122,56 +123,26 @@ class RoomsDetail extends React.PureComponent {
                       <span>{room.full_address}</span>
                     </div>
 
-                    <div className="room__service">
-                      <label className="title">Cơ sở vật chất:</label>
-                      <div className="room__service-list">
-                        <div className="row">
-                          <div className="col c-6 m-6 l-6">
-                            <div className="room__service-item">
-                              <label>Phòng tắm:</label>
-                              <span> Khép kín - Có nóng lạnh</span>
-                            </div>
-                          </div>
-
-                          <div className="col c-6 m-6 l-6">
-                            <div className="room__service-item">
-                              <label>Phòng bếp:</label>
-                              <span> Khu bếp riêng</span>
-                            </div>
-                          </div>
-
-                          <div className="col c-6 m-6 l-6">
-                            <div className="room__service-item">
-                              <label>Điều hòa:</label>
-                              <span> Có</span>
-                            </div>
-                          </div>
-
-                          <div className="col c-6 m-6 l-6">
-                            <div className="room__service-item">
-                              <label>Ban công:</label>
-                              <span> Không</span>
-                            </div>
-                          </div>
-
-                          <div className="col c-6 m-6 l-6">
-                            <div className="room__service-item">
-                              <label>Điện nước:</label>
-                              <span> 3000vnđ/kWh - 30.000đ/m3</span>
-                            </div>
-                          </div>
-
-                          <div className="col c-6 m-6 l-6">
-                            <div className="room__service-item">
-                              <label>Phòng tắm:</label>
-                              <span> Khép kín - Có nóng lạnh</span>
-                            </div>
+                    {
+                      room.attributes.length &&
+                      <div className="room__service">
+                        <label className="title">Cơ sở vật chất:</label>
+                        <div className="room__service-list">
+                          <div className="row">
+                            {
+                              room.attributes.map((item, index) => (
+                                <div className="col c-6 m-6 l-6" key={index}>
+                                  <RoomAttribute attribute={item}/>
+                                </div>
+                              ))
+                            }
                           </div>
                         </div>
                       </div>
-                    </div>
+                    }
 
                     <div className="room__description">
+                      <h3>Thông tin chi tiết:</h3>
                       {room.description}
                     </div>
 
