@@ -88,6 +88,7 @@ class CreatePost extends React.PureComponent {
     attributes: [],
     isLoaded: false,
     images: [],
+    isAdminPage: false,
   };
 
   setFieldValueRef = React.createRef();
@@ -97,8 +98,10 @@ class CreatePost extends React.PureComponent {
   }
 
   getData = () => {
-    const {user} = this.props;
+    const {match: {path}, user} = this.props;
+    const isAdminPage = `${path}`.startsWith('/admin');
     this.setState(prevState => ({
+      isAdminPage,
       initialValues: {
         ...prevState.initialValues,
         owner_phone: user?.phone,
@@ -164,7 +167,7 @@ class CreatePost extends React.PureComponent {
     });
 
     if (values?.description?.length && values.description.length < 10) {
-      errors.description = 'Vui lòng nhập tối thiểu 10 ký tự.'
+      errors.description = 'Vui lòng nhập tối thiểu 10 ký tự.';
     }
 
     if (!images?.length || images.length < 3) {
@@ -175,10 +178,16 @@ class CreatePost extends React.PureComponent {
   };
 
   onSubmit = (values, {setSubmitting}) => {
+    const {isAdminPage} = this.state;
     this.handleSubmitAsync(this.prepareData(values)).then(() => {
       setSubmitting(false);
-      toast.success('Đã lưu, vui lòng chờ phê duyệt.');
-      history.push('/user/post/all');
+      if (isAdminPage) {
+        toast.success('Đã lưu.');
+        history.push('/admin/post/all');
+      } else {
+        toast.success('Đã lưu, vui lòng chờ phê duyệt.');
+        history.push('/user/post/all');
+      }
     }).catch(error => {
       setSubmitting(false);
       toast.error(getApiErrorMessage(error));
@@ -391,7 +400,7 @@ class CreatePost extends React.PureComponent {
                       </div>
                     </form>
                   </Fragment>
-                )
+                );
               }}
             </Formik>
           </div>

@@ -14,7 +14,7 @@ function PostItem(props) {
   const avatar = post.images?.[0];
 
   return (
-    <Link to={`rooms/${post.id}`} className="post-item">
+    <Link to={`/rooms/${post.id}`} className="post-item">
       <div className="post-item__img" style={{backgroundImage: `url(${imageUrl(avatar?.url)})`}}/>
       <h4 className="post-item__title">{post.title}</h4>
       {/*<div className="post-item__area">{post.area} m2 - {post.room_number}PN</div>*/}
