@@ -6,7 +6,7 @@ import PostItem from "../../components/PostItem/PostItem";
 import RoomsFilter from "./__components/RoomsFilter/RoomsFilter";
 import {getAvailableRoomsAPI} from '../../api';
 import {toast} from 'react-toastify';
-import {getApiErrorMessage, getQueryParams} from '../../common/helpers';
+import {getApiErrorMessage, getQueryParams, transferRooms} from '../../common/helpers';
 import {ROOM_TYPE, ROOM_TYPE_NAME} from '../../common/constants';
 
 class Rooms extends React.PureComponent {
@@ -39,7 +39,7 @@ class Rooms extends React.PureComponent {
     getAvailableRoomsAPI(params).then(res => {
       this.setState({
         isLoaded: true,
-        rooms: res.data?.data?.pageData || [],
+        rooms: transferRooms(res.data?.data?.pageData || []),
         type: type * 1,
       });
     }).catch(error => {

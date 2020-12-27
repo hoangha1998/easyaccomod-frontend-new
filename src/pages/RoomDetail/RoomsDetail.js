@@ -10,7 +10,7 @@ import bannerImg from "../../assets/images/banner-sidebar.png";
 import RoomRating from "./__components/RoomRating/RoomRating";
 import UserRating from "../../components/UserRating/UserRating";
 import {getRoomAPI, getUserInfoAPI} from '../../api';
-import {imageUrl} from '../../common/helpers';
+import {imageUrl, transferRooms} from '../../common/helpers';
 import {ROOM_TYPE_NAME} from '../../common/constants';
 
 class RoomsDetail extends React.PureComponent {
@@ -49,7 +49,8 @@ class RoomsDetail extends React.PureComponent {
 
   getDataAsync = async (id) => {
     let owner = null;
-    const {data: {data: room}} = await getRoomAPI(id);
+    let {data: {data: room}} = await getRoomAPI(id);
+    room = transferRooms(room);
     if (room?.images) {
       room.images.forEach(item => {
         item.url = imageUrl(item.url);
@@ -118,7 +119,7 @@ class RoomsDetail extends React.PureComponent {
                     </div>
                     <div className="room__address">
                       <i className="material-icons">place</i>
-                      <span>{room.address}</span>
+                      <span>{room.full_address}</span>
                     </div>
 
                     <div className="room__service">

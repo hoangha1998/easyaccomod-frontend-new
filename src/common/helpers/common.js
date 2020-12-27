@@ -110,3 +110,35 @@ export const getFileExt = (fileName) => {
   }
   return ext.toLowerCase();
 };
+
+/**
+ * Transfer rooms
+ */
+export const transferRooms = (rooms) => {
+  if (!rooms) {
+    return rooms;
+  }
+  let arr = Array.isArray(rooms) ? [...rooms] : [rooms];
+  arr = arr.map(room => {
+    const r = {...room, full_address: ''};
+    const address = [];
+    if (r.address) {
+      address.push(r.address);
+    }
+    if (r.ward) {
+      address.push(r.ward.name);
+    }
+    if (r.district) {
+      address.push(r.district.name);
+    }
+    if (r.province) {
+      address.push(r.province.name);
+    }
+    r.full_address = address.join(', ');
+    return r;
+  });
+  if (!Array.isArray(rooms)) {
+    return arr[0];
+  }
+  return arr;
+};

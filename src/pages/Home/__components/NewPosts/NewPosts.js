@@ -3,7 +3,7 @@ import PostItem from "../../../../components/PostItem/PostItem";
 import './NewPost.scss';
 import {getAvailableRoomsAPI} from '../../../../api';
 import {toast} from 'react-toastify';
-import {getApiErrorMessage} from '../../../../common/helpers';
+import {getApiErrorMessage, transferRooms} from '../../../../common/helpers';
 
 class NewPosts extends React.PureComponent {
   state = {
@@ -19,7 +19,7 @@ class NewPosts extends React.PureComponent {
     getAvailableRoomsAPI().then(res => {
       this.setState({
         isLoaded: true,
-        rooms: res.data?.data?.pageData || [],
+        rooms: transferRooms(res.data?.data?.pageData || []),
       });
     }).catch(error => {
       toast.error(getApiErrorMessage(error));

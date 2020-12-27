@@ -21,7 +21,7 @@ function PostItem(props) {
       <div className="post-item__price">{post.price}</div>
       <div className="post-item__address">
         <i className="material-icons">room</i>
-        <span>{post.address}</span>
+        <span>{post.full_address}</span>
       </div>
       <div className="post-item__action" onClick={favoriteOnClick}>
         <i className="material-icons">{isFavorite ? 'favorite' : 'favorite_border'}</i>

@@ -8,7 +8,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableContainer from "@material-ui/core/TableContainer";
 import {getRoomsAPI, updateRoomApprovedStatusAPI} from '../../../../api';
 import {toast} from 'react-toastify';
-import {getApiErrorMessage} from '../../../../common/helpers';
+import {getApiErrorMessage, transferRooms} from '../../../../common/helpers';
 import PostItem from './PostItem';
 
 class UserPosts extends React.PureComponent {
@@ -28,7 +28,7 @@ class UserPosts extends React.PureComponent {
     getRoomsAPI().then(res => {
       this.setState({
         isLoaded: true,
-        rooms: res.data?.data?.pageData || [],
+        rooms: transferRooms(res.data?.data?.pageData || []),
         isAdminPage,
       });
     }).catch(error => {
